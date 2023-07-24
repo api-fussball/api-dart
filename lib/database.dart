@@ -9,19 +9,11 @@ class Database {
   static Future<Isar> get isarInstance async {
     if (_isarInstance == null) {
 
-      final scriptFile = File.fromUri(Platform.script);
-
-      String name = 'default';
-      if (scriptFile.parent.path.contains('dart_test')) {
-        name = 'default_test';
-      }
-
       String currentDirectory = Directory.current.path;
       await Isar.initializeIsarCore(download: true);
       _isarInstance = await Isar.open(
         [UserSchema],
         directory: currentDirectory,
-        name: name,
       );
     }
     return _isarInstance!;
@@ -38,7 +30,7 @@ Future<void> saveUser(String email, String token) async {
   final newUser = User()..email = email..token = token;
 
   await isar.writeTxn(() async {
-    await isar.users.put(newUser); // insert & update
+    await isar.users.put(newUser);
   });
 }
 
