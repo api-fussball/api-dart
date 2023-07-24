@@ -1,13 +1,7 @@
 import 'dart:io';
 
-import 'package:api_fussball_dart/controller/games.dart';
-import 'package:api_fussball_dart/crawler/http_client_brige.dart';
 import 'package:api_fussball_dart/entities/user.dart';
 import 'package:isar/isar.dart';
-import 'package:shelf/shelf.dart';
-import 'package:shelf/shelf_io.dart';
-import 'package:shelf_router/shelf_router.dart';
-
 
 void test() async {
   final dir = Directory.current.path;

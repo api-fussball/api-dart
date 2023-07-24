@@ -10,10 +10,10 @@ class HttpClientBrige implements HttpClientBrigeInterface {
   Future<String> fetchData(String url) async {
     var response = await http.get(Uri.parse('https://fussball.de${url}'));
 
-    if (response.statusCode == 200) {
+    if (response.body != '') {
       return response.body;
     }
 
-    throw Exception('Error on URL: ${response.statusCode}');
+    throw Exception('Error on URL: https://fussball.de${url}');
   }
 }

@@ -2,14 +2,10 @@ import 'dart:convert';
 
 import 'package:api_fussball_dart/crawler/http_client_brige.dart';
 import 'package:api_fussball_dart/html/games.dart';
+import 'package:api_fussball_dart/response_dto.dart';
 import 'package:shelf/shelf.dart';
+import 'package:shelf_router/shelf_router.dart';
 
-
-class ResponseDto {
-  late String message = '';
-  late bool success;
-  late List<dynamic> data;
-}
 
 class GamesController {
   final HttpClientBrige httpClientBrige;
@@ -18,9 +14,12 @@ class GamesController {
 
   Future<Response> nextGameAction(Request request) async{
 
-    String html = await httpClientBrige.fetchData('/ajax.club.next.games/-/id/00ES8GN91400002IVV0AG08LVUPGND5I/mode/PAGE');
+    var id = request.params['id'];
+    String html = await httpClientBrige.fetchData('/ajax.club.next.games/-/id/${id}/mode/PAGE');
     List<ClubMatchInfoTransfer> clubMatchInfoTransfers = parseHTML(html);
 
-    return Response.ok(jsonEncode(clubMatchInfoTransfers));
+    ResponseSuccessDto responseSuccessDto = ResponseSuccessDto(clubMatchInfoTransfers);
+
+    return Response.ok(jsonEncode(responseSuccessDto));
   }
 }
