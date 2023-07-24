@@ -110,7 +110,7 @@ void main() {
 
     final headers = {'x-auth-token': 'unit_test_token'};
     final response = await get(Uri.parse('$host/api/club/next_games/id'), headers: headers);
-    expect(response.statusCode, 400);
+    expect(response.statusCode, 400, reason: 'Error Body: ${response.body}');
 
     Map<String, dynamic> jsonObject = json.decode(response.body);
 
@@ -125,7 +125,7 @@ void main() {
 
     final headers = {'x-auth-token': 'unit_test_token'};
     final response = await get(Uri.parse('$host/api/club/next_games/00ES8GN91400002IVV0AG08LVUPGND5I'), headers: headers);
-    expect(response.statusCode, 200);
+    expect(response.statusCode, 200, reason: 'Error Body: ${response.body}');
 
 
     String decodedJson = utf8.decode(response.body.codeUnits);
