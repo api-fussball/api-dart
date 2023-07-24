@@ -27,10 +27,16 @@ jobs:
             echo "Fixes available. Please run 'dart fix' locally and push the changes."
             exit 1
           fi
+      - name: Install lcov
+        run: |
+            apt-get update -y
+            apt-get install -y lcov
       - name: Run tests
         run: dart test --coverage=./coverage
       - name: Generate LCOV report
-        run: dart run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov  --report-on=lib
+        run: |
+          lcov --remove coverage/lcov.info -o coverage/filtered_lcov.info '*/.g.dart'
+          dart run coverage:format_coverage --lcov --in=coverage/filtered_lcov.info --out=coverage.lcov --report-on=lib
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
