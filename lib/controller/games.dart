@@ -15,7 +15,7 @@ class GamesController {
   Future<Response> nextGameAction(Request request) async{
 
     var id = request.params['id'];
-    String html = await httpClientBrige.fetchData('/ajax.club.next.games/-/id/${id}/mode/PAGE');
+    String html = await httpClientBrige.fetchData('/ajax.club.next.games/-/id/$id/mode/PAGE');
     List<ClubMatchInfoTransfer> clubMatchInfoTransfers = parseHTML(html);
 
     ResponseSuccessDto responseSuccessDto = ResponseSuccessDto(clubMatchInfoTransfers);

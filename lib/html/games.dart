@@ -59,7 +59,7 @@ List<ClubMatchInfoTransfer> parseHTML(String html) {
 
       var image = awayTeam.attributes['data-responsive-image'];
       if(image != null) {
-        clubMatchInfoTransfer.awayLogo = 'https:${image}';
+        clubMatchInfoTransfer.awayLogo = 'https:$image';
       }
     }
 
@@ -70,7 +70,7 @@ List<ClubMatchInfoTransfer> parseHTML(String html) {
 
       var image = homeTeam.attributes['data-responsive-image'];
       if(image != null) {
-        clubMatchInfoTransfer.homeLogo = 'https:${image}';
+        clubMatchInfoTransfer.homeLogo = 'https:$image';
       }
     }
 
