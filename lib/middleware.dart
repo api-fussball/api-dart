@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:api_fussball_dart/database.dart';
 import 'package:api_fussball_dart/entities/user.dart';
-import 'package:api_fussball_dart/response_dto.dart';
+import 'package:api_fussball_dart/dto/response_dto.dart';
 import 'package:shelf/shelf.dart';
 
 Middleware headerTokenCheckMiddleware() {

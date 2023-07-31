@@ -1,14 +1,15 @@
 import 'dart:io';
 
 import 'package:api_fussball_dart/controller/games.dart';
-import 'package:api_fussball_dart/crawler/http_client_brige.dart';
+import 'package:api_fussball_dart/crawler/http_client_bridge.dart';
+import 'package:api_fussball_dart/html/games.dart';
 import 'package:api_fussball_dart/middleware.dart';
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-var gamesController = GamesController(HttpClientBrige());
+var gamesController = GamesController(httpClientBridge: HttpClientBridge(), games: Games());
 
 // Configure routes.
 final _router = Router()

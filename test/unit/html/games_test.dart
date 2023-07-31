@@ -1,3 +1,4 @@
+import 'package:api_fussball_dart/dto/club_match_info_transfer.dart';
 import 'package:test/test.dart';
 import 'package:api_fussball_dart/html/games.dart';
 
@@ -545,7 +546,9 @@ void main() {
     </div>
 </div>
 ''';
-    List<ClubMatchInfoTransfer> clubMatchInfoTransferList = parseHTML(htmlString);
+    Games games = Games();
+
+    List<ClubMatchInfoTransfer> clubMatchInfoTransferList = games.parseHTML(htmlString);
 
     expect(clubMatchInfoTransferList.length, 10);
 
