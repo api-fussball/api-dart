@@ -31,8 +31,10 @@ jobs:
         run: |
             apt-get update -y
             apt-get install -y lcov
-      - name: Install python lib
-        run: pip install fonttools
+      - name: Install fonttools
+        run: |
+            apt-get install -y python3-pip
+            pip3 install fonttools
       - name: Run tests
         run: dart test --coverage=./coverage
       - name: Generate LCOV report
