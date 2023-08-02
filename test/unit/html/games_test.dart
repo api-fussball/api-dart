@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 import 'package:api_fussball_dart/html/games.dart';
 
 void main() {
-  test('Test nächste games', () async {
+  test('next club games', () async {
 
     final String htmlString = '''
     <!--https://www.fussball.de/ajax.club.next.games/-/id/00ES8GN91400002IVV0AG08LVUPGND5I/mode/PAGE -->
