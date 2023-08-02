@@ -6,3 +6,5 @@
 libisar.so
 
 coverage/
+fonts/*
+!fonts/.gitkeep
