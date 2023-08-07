@@ -1,9 +1,36 @@
 import 'dart:io';
+import 'package:api_fussball_dart/database.dart';
 import 'package:http/http.dart' as http;
 import 'package:sprintf/sprintf.dart';
 import 'package:xml/xml.dart';
 
-class Font {
+abstract interface class FontInterface {
+  Future<Map<String, String>> decodeFont(String fontName);
+}
+
+class FontProxy extends FontInterface {
+  FontInterface font;
+
+  FontManager fontManager = FontManager();
+
+  FontProxy(this.font);
+
+  @override
+  Future<Map<String, String>> decodeFont(String fontName) async {
+    var fontInfoDb = await fontManager.findByName(fontName);
+
+    if(fontInfoDb == null) {
+      Map<String, String> fontInfo = await font.decodeFont(fontName);
+      await fontManager.save(fontName, fontInfo);
+
+      return fontInfo;
+    }
+
+    return fontInfoDb;
+  }
+}
+
+class Font extends FontInterface{
   static const Map<String, String> map = {
     'hyphen': '-',
     'zero': '0',
@@ -27,6 +54,7 @@ class Font {
 
   Font(this.client);
 
+  @override
   Future<Map<String, String>> decodeFont(String fontName) async {
     String url = sprintf(Font.url, [fontName]);
 
