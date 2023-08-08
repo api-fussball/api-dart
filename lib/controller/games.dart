@@ -18,7 +18,7 @@ class GamesController {
 
     var id = request.params['id'];
     String html = await httpClientBridge.fetchData('/ajax.club.next.games/-/id/$id/mode/PAGE');
-    List<ClubMatchInfoTransfer> clubMatchInfoTransfers = games.parseHTML(html, false);
+    List<ClubMatchInfoTransfer> clubMatchInfoTransfers = await games.parseHTML(html, false);
 
     ResponseSuccessDto responseSuccessDto = ResponseSuccessDto(clubMatchInfoTransfers);
 

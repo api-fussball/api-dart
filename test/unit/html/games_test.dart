@@ -560,7 +560,7 @@ void main() {
 
     games.scoreFont.font = MockExceptionFont();
 
-    List<ClubMatchInfoTransfer> clubMatchInfoTransferList = games.parseHTML(htmlString, false);
+    List<ClubMatchInfoTransfer> clubMatchInfoTransferList = await games.parseHTML(htmlString, false);
 
     expect(clubMatchInfoTransferList.length, 10);
 
@@ -1142,7 +1142,7 @@ void main() {
 
       games.scoreFont = scoreFont;
 
-      List<ClubMatchInfoTransfer> clubMatchInfoTransferList = games.parseHTML(htmlString, true);
+      List<ClubMatchInfoTransfer> clubMatchInfoTransferList = await games.parseHTML(htmlString, true);
 
       expect(clubMatchInfoTransferList.length, 10);
 

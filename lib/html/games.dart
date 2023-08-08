@@ -4,7 +4,7 @@ import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
 
 abstract interface class GamesInterface {
-  List<ClubMatchInfoTransfer> parseHTML(String html, bool isScore);
+  Future<List<ClubMatchInfoTransfer>> parseHTML(String html, bool isScore);
 }
 
 class Games implements GamesInterface {
@@ -12,7 +12,7 @@ class Games implements GamesInterface {
   ScoreFont scoreFont = ScoreFont();
 
   @override
-  List<ClubMatchInfoTransfer> parseHTML(String html, bool isScore) {
+  Future<List<ClubMatchInfoTransfer>> parseHTML(String html, bool isScore) async{
     List<ClubMatchInfoTransfer> results = [];
 
     var document = parse(html.replaceAll('&#', ''));
@@ -34,34 +34,47 @@ class Games implements GamesInterface {
 
       _addMainInfo(rowScore, clubMatchInfoTransfer);
       if(isScore) {
-        _addScoreInfo(rowScore, clubMatchInfoTransfer);
+        clubMatchInfoTransfer.homeScore = await _getHomeScore(rowScore, clubMatchInfoTransfer);
+        clubMatchInfoTransfer.awayScore = await _getAwayScore(rowScore, clubMatchInfoTransfer);
       }
+
+      _addStatus(rowScore, clubMatchInfoTransfer);
     }
 
     return results;
   }
 
-  void _addScoreInfo(Element rowScore, ClubMatchInfoTransfer clubMatchInfoTransfer) async {
-    print(rowScore);
+  void _addStatus(Element rowScore, ClubMatchInfoTransfer clubMatchInfoTransfer) {
     var spans = rowScore.getElementsByTagName('span');
     for (var span in spans) {
       if (span.attributes['class'] == 'info-text') {
         clubMatchInfoTransfer.status = span.text;
       }
     }
+  }
 
+  Future<String> _getHomeScore(Element rowScore, ClubMatchInfoTransfer clubMatchInfoTransfer) async {
+
+    var spans = rowScore.getElementsByTagName('span');
     for (var span in spans) {
-
       String? dataObfuscation = span.attributes['data-obfuscation'];
       if (span.className == 'score-left') {
-
-        clubMatchInfoTransfer.homeScore = await scoreFont.getScore(dataObfuscation!, span.innerHtml);
-      }
-
-      if (span.className == 'score-right') {
-        clubMatchInfoTransfer.awayScore = await scoreFont.getScore(dataObfuscation!, span.innerHtml);
+        return await scoreFont.getScore(dataObfuscation!, span.innerHtml);
       }
     }
+    return '';
+  }
+
+  Future<String> _getAwayScore(Element rowScore, ClubMatchInfoTransfer clubMatchInfoTransfer) async {
+
+    var spans = rowScore.getElementsByTagName('span');
+    for (var span in spans) {
+      String? dataObfuscation = span.attributes['data-obfuscation'];
+      if (span.className == 'score-right') {
+        return await scoreFont.getScore(dataObfuscation!, span.innerHtml);
+      }
+    }
+    return '';
   }
 
   void _addMainInfo(
