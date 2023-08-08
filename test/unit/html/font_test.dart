@@ -37,7 +37,8 @@ void main() {
       }
     });
 
-    var font = Font(client);
+    var font = Font();
+    font.client = client;
 
     Map<String, String> result = await font.decodeFont('unit');
 

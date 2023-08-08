@@ -31,7 +31,8 @@ void main() {
 
   test('Font proxy decode', () async {
 
-    var font = FontProxy(MockFont());
+    var font = FontProxy();
+    font.font = MockFont();
 
     Map<String, String> result = await font.decodeFont('unit');
 
@@ -58,7 +59,8 @@ void main() {
     info['name'] = 'unit';
     await FontManager().save('unit', info);
 
-    var font = FontProxy(MockExceptionFont());
+    var font = FontProxy();
+    font.font = MockExceptionFont();
 
     Map<String, String> result = await font.decodeFont('unit');
     expect(result['name'], 'unit');
