@@ -16,6 +16,7 @@ final _router = Router()
   ..get('/',  _rootHandler)
   ..get('/echo/<message>', _echoHandler)
   ..get('/api/club/next_games/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.nextGameAction)(request))
+  ..get('/api/club/prev_games/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.prevGameAction)(request))
 ;
 
 

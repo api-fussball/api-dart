@@ -118,11 +118,8 @@ class Font implements FontInterface {
       info[code] = Font.map[name]!;
     }
 
-    print(info);
-
     fontFile.delete();
     convertFile.delete();
-    client.close();
 
     return info;
   }

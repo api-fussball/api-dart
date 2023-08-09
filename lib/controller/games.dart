@@ -24,4 +24,15 @@ class GamesController {
 
     return Response.ok(jsonEncode(responseSuccessDto));
   }
+
+  Future<Response> prevGameAction(Request request) async{
+
+    var id = request.params['id'];
+    String html = await httpClientBridge.fetchData('/ajax.club.prev.games/-/id/$id/mode/PAGE');
+    List<ClubMatchInfoTransfer> clubMatchInfoTransfers = await games.parseHTML(html, true);
+
+    ResponseSuccessDto responseSuccessDto = ResponseSuccessDto(clubMatchInfoTransfers);
+
+    return Response.ok(jsonEncode(responseSuccessDto));
+  }
 }

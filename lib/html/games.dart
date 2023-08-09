@@ -41,7 +41,24 @@ class Games implements GamesInterface {
       _addStatus(rowScore, clubMatchInfoTransfer);
     }
 
+    if(isScore) {
+      clearScoreFontRuntimeCache(document);
+    }
+
     return results;
+  }
+
+  void clearScoreFontRuntimeCache(Document document) {
+    var elements = document.querySelectorAll('[data-obfuscation]');
+    
+    Set<String> uniqueValues = {};
+    for (Element element in elements) {
+      uniqueValues.add(element.attributes['data-obfuscation']!);
+    }
+    
+    for (String value in uniqueValues) {
+      scoreFont.fontCache.remove(value);
+    }
   }
 
   void _addStatus(Element rowScore, ClubMatchInfoTransfer clubMatchInfoTransfer) {
