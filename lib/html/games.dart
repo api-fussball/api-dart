@@ -135,7 +135,7 @@ class Games implements GamesInterface {
       clubMatchInfoTransfer.time = dateTimeInfo[1].split(' Uhr')[0];
 
       List<String> otherInfo = dateTimeInfo[1].split(' | ');
-      print(otherInfo);
+
       if (otherInfo.isNotEmpty) {
         if (otherInfo.length == 3) {
           clubMatchInfoTransfer.ageGroup = otherInfo[1].trim();
