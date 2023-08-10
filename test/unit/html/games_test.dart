@@ -11,7 +11,7 @@ class MockExceptionFont implements FontInterface {
 }
 
 void main() {
-  test('next club games', () async {
+  test('next club match', () async {
     final String htmlString = '''
     <!--https://www.fussball.de/ajax.club.next.games/-/id/00ES8GN91400002IVV0AG08LVUPGND5I/mode/PAGE -->
 
@@ -595,7 +595,7 @@ void main() {
     expect(fJuniorGame.time, '16:15');
   });
 
-  test('prev club games', () async {
+  test('parse prev club match', () async {
     final String htmlString = '''
   <!--https://www.fussball.de/ajax.club.prev.games/-/id/00ES8GN91400002IVV0AG08LVUPGND5I/mode/PAGE-->
 
@@ -1182,5 +1182,582 @@ void main() {
     ClubMatchInfoTransfer unclearScoreGame = clubMatchInfoTransferList[9];
     expect(unclearScoreGame.homeScore, '11');
     expect(unclearScoreGame.awayScore, '1');
+  });
+
+  test('parse prev team match', () async {
+    final String htmlString = '''
+<div id="id-team-matchplan-table" class="table-container fixtures-matches-table club-matchplan-table">
+	<div class="hint-pre-publish"><span class="inner"><h5>Wichtiger Hinweis zum Spielplan</h5><p>Dieser Spielplan enthält vorläufige Spiele, die noch nicht vom Staffelleiter freigegeben worden sind. Bitte warte für weitere Informationen auf die finale Freigabe.</p></span></div>
+	<table class="table table-striped table-full-width">
+		<thead>
+			<tr class="thead hidden-small">
+				<th class="hidden-small">Datum | Zeit</th>
+				<th colspan="3">Wettbewerb</th>
+				<th colspan="2"><span class="hidden-small">Info</span></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="row-headline visible-small">
+				<td colspan="6">Mittwoch, 09.08.2023 - 20:00 Uhr | Kreisfreundschaftsspiele</td>
+			</tr>
+			<tr class="odd row-competition hidden-small">
+				<td class="column-date"><span class="hidden-small inline">Mi, 09.08.23 |&nbsp;</span>20:00</td>
+				<td colspan="3" class="column-team">
+					<a>Kreisfreundschaftsspiele</a>
+				</td>
+				<td colspan="2">
+					<a>FS | 260001036</a>
+				</td>
+			</tr>
+			<tr class="odd">
+				<td class="hidden-small"></td>
+				<td class="column-club">
+					<a href="https://www.fussball.de/mannschaft/sv-fuehlingen-ii-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01L64SKETK000000VV0AG80NVTB5JGKG" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="SV Fühlingen II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							SV Fühlingen II
+						</div>
+					</a>
+				</td>
+				<td class="column-colon">:</td>
+				<td class="column-club no-border">
+					<a href="https://www.fussball.de/mannschaft/fc-chorweiler-fc-chorweiler-mittelrhein/-/saison/2324/team-id/02LUQE5340000000VS5489B1VVVHS1D7" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="FC Chorweiler" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/02LIGFFEN4000000VS5489B5VTLT177U"></span></div>
+						<div class="club-name">
+							FC Chorweiler
+						</div>
+					</a>
+				</td>
+				<td class="column-score">
+					<a href="https://www.fussball.de/spiel/sv-fuehlingen-ii-fc-chorweiler/-/spiel/02M6JRL1SS000000VS5489B4VSAUO6GA"><span class="info-text">Absetzung</span></a>
+				</td>
+				<td class="column-detail">
+					<a href="https://www.fussball.de/spiel/sv-fuehlingen-ii-fc-chorweiler/-/spiel/02M6JRL1SS000000VS5489B4VSAUO6GA"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+				</td>
+			</tr>
+			<tr class="row-headline visible-small">
+				<td colspan="6">Sonntag, 06.08.2023 - 13:00 Uhr | Kreisfreundschaftsspiele</td>
+			</tr>
+			<tr class="row-competition hidden-small">
+				<td class="column-date"><span class="hidden-small inline">So, 06.08.23 |&nbsp;</span>13:00</td>
+				<td colspan="3" class="column-team">
+					<a>Kreisfreundschaftsspiele</a>
+				</td>
+				<td colspan="2">
+					<a>FS | 260001067</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="hidden-small"></td>
+				<td class="column-club">
+					<a href="https://www.fussball.de/mannschaft/sv-fuehlingen-ii-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01L64SKETK000000VV0AG80NVTB5JGKG" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="SV Fühlingen II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							SV Fühlingen II
+						</div>
+					</a>
+				</td>
+				<td class="column-colon">:</td>
+				<td class="column-club no-border">
+					<a href="https://www.fussball.de/mannschaft/jsv-koeln-96-iii-jsv-koeln-96-genclerbirligi-mittelrhein/-/saison/2324/team-id/027LDNLPLS000000VS5489B1VTUKARPV" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="JSV Köln 96 III" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002CVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							JSV Köln 96 III
+						</div>
+					</a>
+				</td>
+				<td class="column-score">
+					<a href="https://www.fussball.de/spiel/sv-fuehlingen-ii-jsv-koeln-96-iii/-/spiel/02M79QM6T4000000VS5489B3VVRQ15EP"><span data-obfuscation="xlbfavwi" class="score-left">&#xE6B6;</span><span class="colon">:</span><span data-obfuscation="xlbfavwi" class="score-right">&#xE690;<span class="icon-verified"></span></span></a>
+				</td>
+				<td class="column-detail">
+					<a href="https://www.fussball.de/spiel/sv-fuehlingen-ii-jsv-koeln-96-iii/-/spiel/02M79QM6T4000000VS5489B3VVRQ15EP"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+				</td>
+			</tr>
+			<tr class="row-headline visible-small">
+				<td colspan="6">Mittwoch, 02.08.2023 - 20:00 Uhr | Kreisfreundschaftsspiele</td>
+			</tr>
+			<tr class="odd row-competition hidden-small">
+				<td class="column-date"><span class="hidden-small inline">Mi, 02.08.23 |&nbsp;</span>20:00</td>
+				<td colspan="3" class="column-team">
+					<a>Kreisfreundschaftsspiele</a>
+				</td>
+				<td colspan="2">
+					<a>FS | 260001090</a>
+				</td>
+			</tr>
+			<tr class="odd">
+				<td class="hidden-small"></td>
+				<td class="column-club">
+					<a href="https://www.fussball.de/mannschaft/sv-fuehlingen-ii-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01L64SKETK000000VV0AG80NVTB5JGKG" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="SV Fühlingen II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							SV Fühlingen II
+						</div>
+					</a>
+				</td>
+				<td class="column-colon">:</td>
+				<td class="column-club no-border">
+					<a href="https://www.fussball.de/mannschaft/sv-auweiler-esch-59-ev-sv-auweiler-esch-59-ev-mittelrhein/-/saison/2324/team-id/011MIAE8QO000000VTVG0001VTR8C1K7" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="SV Auweiler-Esch 59 e.V." data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400001NVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							SV Auweiler-Esch 59 e.V.
+						</div>
+					</a>
+				</td>
+				<td class="column-score">
+					<a href="https://www.fussball.de/spiel/sv-fuehlingen-ii-sv-auweiler-esch-59-ev/-/spiel/02M7PQ8KIS000000VS5489B3VVRQ15EP"><span class="info-text">Absetzung</span></a>
+				</td>
+				<td class="column-detail">
+					<a href="https://www.fussball.de/spiel/sv-fuehlingen-ii-sv-auweiler-esch-59-ev/-/spiel/02M7PQ8KIS000000VS5489B3VVRQ15EP"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+				</td>
+			</tr>
+			<tr class="row-headline visible-small">
+				<td colspan="6">Mittwoch, 02.08.2023 - 20:00 Uhr | Kreisfreundschaftsspiele</td>
+			</tr>
+			<tr class="row-competition hidden-small">
+				<td class="column-date">20:00</td>
+				<td colspan="3" class="column-team">
+					<a>Kreisfreundschaftsspiele</a>
+				</td>
+				<td colspan="2">
+					<a>FS | 260001334</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="hidden-small"></td>
+				<td class="column-club">
+					<a href="https://www.fussball.de/mannschaft/sv-fuehlingen-ii-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01L64SKETK000000VV0AG80NVTB5JGKG" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="SV Fühlingen II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							SV Fühlingen II
+						</div>
+					</a>
+				</td>
+				<td class="column-colon">:</td>
+				<td class="column-club no-border">
+					<a href="https://www.fussball.de/mannschaft/germania-ossendorf-ii-sc-germania-ossendorf-1894-ev-mittelrhein/-/saison/2324/team-id/01P5I6AIAO000000VV0AG80NVTAI8KUU" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="Germania Ossendorf II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN914000045VV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							Germania Ossendorf II
+						</div>
+					</a>
+				</td>
+				<td class="column-score">
+					<a href="https://www.fussball.de/spiel/sv-fuehlingen-ii-germania-ossendorf-ii/-/spiel/02MDVAG3IG000000VS5489B3VS8P6BMU"><span data-obfuscation="xlbfavwi" class="score-left">&#xE6AA;</span><span class="colon">:</span><span data-obfuscation="xlbfavwi" class="score-right">&#xE69F;<span class="icon-verified"></span></span></a>
+				</td>
+				<td class="column-detail">
+					<a href="https://www.fussball.de/spiel/sv-fuehlingen-ii-germania-ossendorf-ii/-/spiel/02MDVAG3IG000000VS5489B3VS8P6BMU"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+				</td>
+			</tr>
+			<tr class="row-headline visible-small">
+				<td colspan="6">Sonntag, 30.07.2023 - 13:00 Uhr | Kreisfreundschaftsspiele</td>
+			</tr>
+			<tr class="odd row-competition hidden-small">
+				<td class="column-date"><span class="hidden-small inline">So, 30.07.23 |&nbsp;</span>13:00</td>
+				<td colspan="3" class="column-team">
+					<a>Kreisfreundschaftsspiele</a>
+				</td>
+				<td colspan="2">
+					<a>FS | 260001103</a>
+				</td>
+			</tr>
+			<tr class="odd">
+				<td class="hidden-small"></td>
+				<td class="column-club">
+					<a href="https://www.fussball.de/mannschaft/sv-fuehlingen-ii-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01L64SKETK000000VV0AG80NVTB5JGKG" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="SV Fühlingen II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							SV Fühlingen II
+						</div>
+					</a>
+				</td>
+				<td class="column-colon">:</td>
+				<td class="column-club no-border">
+					<a href="https://www.fussball.de/mannschaft/fc-bosna-i-bosna-koeln-mittelrhein/-/saison/2324/team-id/012UDJH38S000000VV0AG80NVTJGN4F5" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="FC Bosna I" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/012S33IQ7G000000VV0AG80NVVH516BU"></span></div>
+						<div class="club-name">
+							FC Bosna I
+						</div>
+					</a>
+				</td>
+				<td class="column-score">
+					<a href="https://www.fussball.de/spiel/sv-fuehlingen-ii-fc-bosna-i/-/spiel/02M83JKHV0000000VS5489B3VVRQ15EP"><span data-obfuscation="xlbfavwi" class="score-left">&#xE661;</span><span class="colon">:</span><span data-obfuscation="xlbfavwi" class="score-right">&#xE690;<span class="icon-verified"></span></span></a>
+				</td>
+				<td class="column-detail">
+					<a href="https://www.fussball.de/spiel/sv-fuehlingen-ii-fc-bosna-i/-/spiel/02M83JKHV0000000VS5489B3VVRQ15EP"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+				</td>
+			</tr>
+			<tr class="row-headline visible-small">
+				<td colspan="6">Sonntag, 23.07.2023 - 13:00 Uhr | Kreisfreundschaftsspiele</td>
+			</tr>
+			<tr class="row-competition hidden-small">
+				<td class="column-date"><span class="hidden-small inline">So, 23.07.23 |&nbsp;</span>13:00</td>
+				<td colspan="3" class="column-team">
+					<a>Kreisfreundschaftsspiele</a>
+				</td>
+				<td colspan="2">
+					<a>FS | 260001349</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="hidden-small"></td>
+				<td class="column-club">
+					<a href="https://www.fussball.de/mannschaft/spiel-und-sport-1912-nippes-2-spiel-und-sport-1912-nippes-mittelrhein/-/saison/2324/team-id/01SIH3AD4C000000VS548985VV6960M6" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="Spiel und Sport 1912 Nippes 2" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400003SVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							Spiel und Sport 1912 Nippes 2
+						</div>
+					</a>
+				</td>
+				<td class="column-colon">:</td>
+				<td class="column-club no-border">
+					<a href="https://www.fussball.de/mannschaft/sv-fuehlingen-ii-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01L64SKETK000000VV0AG80NVTB5JGKG" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="SV Fühlingen II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							SV Fühlingen II
+						</div>
+					</a>
+				</td>
+				<td class="column-score">
+					<a href="https://www.fussball.de/spiel/spiel-und-sport-1912-nippes-2-sv-fuehlingen-ii/-/spiel/02MEJJ74NO000000VS5489B3VUHHBIEF"><span data-obfuscation="xlbfavwi" class="score-left">&#xE692;</span><span class="colon">:</span><span data-obfuscation="xlbfavwi" class="score-right">&#xE67B;<span class="icon-verified"></span></span></a>
+				</td>
+				<td class="column-detail">
+					<a href="https://www.fussball.de/spiel/spiel-und-sport-1912-nippes-2-sv-fuehlingen-ii/-/spiel/02MEJJ74NO000000VS5489B3VUHHBIEF"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+				</td>
+			</tr>
+			<tr class="row-headline visible-small">
+				<td colspan="6">Sonntag, 11.06.2023 - 13:00 Uhr | Kreisliga D</td>
+			</tr>
+			<tr class="odd row-competition hidden-small">
+				<td class="column-date"><span class="hidden-small inline">So, 11.06.23 |&nbsp;</span>13:00</td>
+				<td colspan="3" class="column-team">
+					<a>Kreisliga D</a>
+				</td>
+				<td colspan="2">
+					<a>ME | 230556237</a>
+				</td>
+			</tr>
+			<tr class="odd">
+				<td class="hidden-small"></td>
+				<td class="column-club">
+					<a href="https://www.fussball.de/mannschaft/ksv-heimersdorf-ii-ksv-59-65-ev-heimersdorf-mittelrhein/-/saison/2223/team-id/02ILA6DIRO000000VS5489B2VVQ9C6A6" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="Heimersdorf II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002NVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							Heimersdorf II
+						</div>
+					</a>
+				</td>
+				<td class="column-colon">:</td>
+				<td class="column-club no-border">
+					<a href="https://www.fussball.de/mannschaft/sv-fuehlingen-ii-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2223/team-id/01L64SKETK000000VV0AG80NVTB5JGKG" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="Fühlingen II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							Fühlingen II
+						</div>
+					</a>
+				</td>
+				<td class="column-score">
+					<a href="https://www.fussball.de/spiel/ksv-heimersdorf-ii-sv-fuehlingen-ii/-/spiel/02IPRFAEGK000000VS5489B3VUDHAAN1"><span data-obfuscation="xlbfavwi" class="score-left">&#xE677;</span><span class="colon">:</span><span data-obfuscation="xlbfavwi" class="score-right">&#xE677;<span class="icon-verified"></span></span></a>
+				</td>
+				<td class="column-detail">
+					<a href="https://www.fussball.de/spiel/ksv-heimersdorf-ii-sv-fuehlingen-ii/-/spiel/02IPRFAEGK000000VS5489B3VUDHAAN1"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+				</td>
+			</tr>
+			<tr class="row-headline visible-small">
+				<td colspan="6">Sonntag, 04.06.2023 - 13:00 Uhr | Kreisfreundschaftsspiele</td>
+			</tr>
+			<tr class="row-competition hidden-small">
+				<td class="column-date"><span class="hidden-small inline">So, 04.06.23 |&nbsp;</span>13:00</td>
+				<td colspan="3" class="column-team">
+					<a>Kreisfreundschaftsspiele</a>
+				</td>
+				<td colspan="2">
+					<a>FS | 260010471</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="hidden-small"></td>
+				<td class="column-club">
+					<a href="https://www.fussball.de/mannschaft/sc-weiler-volkhoven-ii-sc-koeln-weiler-volkhoven-1948-mittelrhein/-/saison/2223/team-id/011MI9IHB4000000VTVG0001VTR8C1K7" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="SC Weiler-Volkhoven II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400005JVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							SC Weiler-Volkhoven II
+						</div>
+					</a>
+				</td>
+				<td class="column-colon">:</td>
+				<td class="column-club no-border">
+					<a href="https://www.fussball.de/mannschaft/sv-fuehlingen-ii-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2223/team-id/01L64SKETK000000VV0AG80NVTB5JGKG" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="SV Fühlingen II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							SV Fühlingen II
+						</div>
+					</a>
+				</td>
+				<td class="column-score">
+					<a href="https://www.fussball.de/spiel/sc-weiler-volkhoven-ii-sv-fuehlingen-ii/-/spiel/02LUPNEM2K000000VS5489B3VTVUJRS3"><span data-obfuscation="xlbfavwi" class="score-left">&#xE6A9;</span><span class="colon">:</span><span data-obfuscation="xlbfavwi" class="score-right">&#xE683;<span class="icon-verified"></span></span></a>
+				</td>
+				<td class="column-detail">
+					<a href="https://www.fussball.de/spiel/sc-weiler-volkhoven-ii-sv-fuehlingen-ii/-/spiel/02LUPNEM2K000000VS5489B3VTVUJRS3"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+				</td>
+			</tr>
+			<tr class="row-headline visible-small">
+				<td colspan="6">Montag, 29.05.2023 - 13:00 Uhr | Kreisliga D</td>
+			</tr>
+			<tr class="odd row-competition hidden-small">
+				<td class="column-date"><span class="hidden-small inline">Mo, 29.05.23 |&nbsp;</span>13:00</td>
+				<td colspan="3" class="column-team">
+					<a>Kreisliga D</a>
+				</td>
+				<td colspan="2">
+					<a>ME | 230556221</a>
+				</td>
+			</tr>
+			<tr class="odd">
+				<td class="hidden-small"></td>
+				<td class="column-club">
+					<a href="https://www.fussball.de/mannschaft/raderthal-ii-raderthal-kickers-koeln-1991-mittelrhein/-/saison/2223/team-id/011MIBH8R8000000VTVG0001VTR8C1K7" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="Raderthal II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400004EVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							Raderthal II
+						</div>
+					</a>
+				</td>
+				<td class="column-colon">:</td>
+				<td class="column-club no-border">
+					<a href="https://www.fussball.de/mannschaft/sv-fuehlingen-ii-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2223/team-id/01L64SKETK000000VV0AG80NVTB5JGKG" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="Fühlingen II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							Fühlingen II
+						</div>
+					</a>
+				</td>
+				<td class="column-score">
+					<a href="https://www.fussball.de/spiel/raderthal-ii-sv-fuehlingen-ii/-/spiel/02IPRFAFBK000000VS5489B3VUDHAAN1"><span data-obfuscation="xlbfavwi" class="score-left">&#xE651;</span><span class="colon">:</span><span data-obfuscation="xlbfavwi" class="score-right">&#xE675;<span class="icon-verified"></span></span></a>
+				</td>
+				<td class="column-detail">
+					<a href="https://www.fussball.de/spiel/raderthal-ii-sv-fuehlingen-ii/-/spiel/02IPRFAFBK000000VS5489B3VUDHAAN1"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+				</td>
+			</tr>
+			<tr class="row-headline visible-small">
+				<td colspan="6">Sonntag, 21.05.2023 - 13:00 Uhr | Kreisliga D</td>
+			</tr>
+			<tr class="row-competition hidden-small">
+				<td class="column-date"><span class="hidden-small inline">So, 21.05.23 |&nbsp;</span>13:00</td>
+				<td colspan="3" class="column-team">
+					<a>Kreisliga D</a>
+				</td>
+				<td colspan="2">
+					<a>ME | 230556210</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="hidden-small"></td>
+				<td class="column-club">
+					<a href="https://www.fussball.de/mannschaft/sv-fuehlingen-ii-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2223/team-id/01L64SKETK000000VV0AG80NVTB5JGKG" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="Fühlingen II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							Fühlingen II
+						</div>
+					</a>
+				</td>
+				<td class="column-colon">:</td>
+				<td class="column-club no-border">
+					<a href="https://www.fussball.de/mannschaft/roland-west-iii-djk-roland-koeln-west-ev-mittelrhein/-/saison/2223/team-id/02EVMIPGF4000000VS5489B1VT1H0S9M" class="club-wrapper">
+						<div class="club-logo table-image"><span data-alt="Roland West III" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400004MVV0AG08LVUPGND5I"></span></div>
+						<div class="club-name">
+							Roland West III
+						</div>
+					</a>
+				</td>
+				<td class="column-score">
+					<a href="https://www.fussball.de/spiel/sv-fuehlingen-ii-roland-west-iii/-/spiel/02IPRFAFTG000000VS5489B3VUDHAAN1"><span data-obfuscation="xlbfavwi" class="score-left">&#xE685;</span><span class="colon">:</span><span data-obfuscation="xlbfavwi" class="score-right">&#xE69A;<span class="icon-verified"></span></span></a>
+				</td>
+				<td class="column-detail">
+					<a href="https://www.fussball.de/spiel/sv-fuehlingen-ii-roland-west-iii/-/spiel/02IPRFAFTG000000VS5489B3VUDHAAN1"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div data-toggle=".legend > span, .note > span" class="table-meta">
+		<ul class="functions">
+			<li class="legend"><span data-toggle-content=".table-legend">Legende<span class="icon-angle-down"></span></span></li>
+		</ul>
+		<div class="table-legend">
+			<h3>Kürzel bei einem Spiel</h3>
+			<div class="row">
+				<div class="wrapper">
+					<div class="column">
+						<div class="item"><span>u</span></div>
+						<div class="description">(U) Sportgerichtsurteil (bestätigt)</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>Annuliert</span></div>
+						<div class="description">Annullierung</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>v</span></div>
+						<div class="description">(V) Verwaltungsentscheid (bestätigt)</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="wrapper">
+					<div class="column">
+						<div class="item"><span>Absetzung</span></div>
+						<div class="description">Spielabsetzung</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>w</span></div>
+						<div class="description">(W) Wertung Spielinstanz (bestätigt)</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>Ausfall</span></div>
+						<div class="description">Spielausfall</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="wrapper">
+					<div class="column">
+						<div class="item"><span>t</span></div>
+						<div class="description">(T) Testspiel (bestätigt)</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>Abbruch</span></div>
+						<div class="description">Spielabbruch</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>zg.</span></div>
+						<div class="description">Diese Mannschaft wurde zurückgezogen, die Ergebnisse werden aber eingerechnet.</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="wrapper">
+					<div class="column">
+						<div class="item"><span>Nichtantritt BEIDE</span></div>
+						<div class="description">nicht angetretene Mannschaften</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>Nichtantritt HEIM</span></div>
+						<div class="description">nicht angetreten HEIM-Mannschaft</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>Nichtantritt GAST</span></div>
+						<div class="description">nicht angetreten GAST-Mannschaft</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="wrapper">
+					<div class="column">
+						<div class="item"><span>nV</span></div>
+						<div class="description">nach Verlängerung</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>nE</span></div>
+						<div class="description">nach Elfmeterschießen</div>
+					</div>
+				</div>
+			</div>
+			<h3>Sonstiges</h3>
+			<div class="row">
+				<div class="wrapper">
+					<div class="column">
+						<div class="item"><span>**</span></div>
+						<div class="description">Die Anstoßzeit steht noch nicht fest oder ist nicht bekannt.</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>o.E.</span></div>
+						<div class="description">Keine Ergebnisanzeige, da die Staffel nicht im Leistungsbetrieb spielt.</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>oW</span></div>
+						<div class="description">Mannschaften mit diesem Kennzeichen spielen außer Konkurrenz.</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="wrapper">
+					<div class="column">
+						<div class="item"><span class="icon-verified"></span></div>
+						<div class="description">Ergebnis bestätigt</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>Live</span></div>
+						<div class="description">Liveticker</div>
+					</div>
+					<div class="column">
+						<div class="item"><span>SPIELFREI</span></div>
+						<div class="description">An diesem Datum hat die Mannschaft spielfrei.</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="wrapper">
+					<div class="column">
+						<div class="item"><span class="icon-article"></span></div>
+						<div class="description">Spielbericht vorhanden</div>
+					</div>
+					<div class="column">
+						<div class="item"><span class="icon-foto"></span></div>
+						<div class="description">Foto oder Video vorhanden</div>
+					</div>
+					<div class="column">
+						<div class="item"><span class="icon-video"></span></div>
+						<div class="description">Livestream oder Highlights vorhanden</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="wrapper">
+					<div class="column">
+						<div class="item"><span class="icon-pre-publish"></span></div>
+						<div class="description">vorläufiges Spiel</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> 
+''';
+
+    Games games = Games();
+
+    ScoreFont scoreFont = ScoreFont();
+    scoreFont.fontCache['xlbfavwi'] = {"xe650":"4","xe651":"0","xe652":"7","xe653":"5","xe654":"7","xe655":"6","xe656":"5","xe657":"1","xe658":"0","xe659":"9","xe65a":"-","xe65b":"1","xe65c":"4","xe65d":"4","xe65e":"3","xe65f":"5","xe660":"8","xe661":"0","xe662":"5","xe663":"9","xe664":"1","xe665":"0","xe666":"2","xe667":"4","xe668":"8","xe669":"9","xe66a":"9","xe66b":"1","xe66c":"0","xe66d":"-","xe66e":"9","xe66f":"1","xe670":"6","xe671":"2","xe672":"0","xe673":"-","xe674":"1","xe675":"4","xe676":"4","xe677":"1","xe678":"8","xe679":"2","xe67a":"5","xe67b":"2","xe67c":"7","xe67d":"7","xe67e":"5","xe67f":"-","xe680":"3","xe681":"3","xe682":"8","xe683":"7","xe684":"7","xe685":"0","xe686":"6","xe687":"8","xe688":"7","xe689":"8","xe68a":"9","xe68b":"0","xe68c":"7","xe68d":"2","xe68e":"6","xe68f":"4","xe690":"3","xe691":"3","xe692":"5","xe693":"8","xe694":"5","xe695":"8","xe696":"4","xe697":"3","xe698":"5","xe699":"-","xe69a":"2","xe69b":"8","xe69c":"1","xe69d":"0","xe69e":"-","xe69f":"2","xe6a0":"3","xe6a1":"3","xe6a2":"-","xe6a3":"8","xe6a4":"6","xe6a5":"-","xe6a6":"5","xe6a7":"6","xe6a8":"6","xe6a9":"4","xe6aa":"9","xe6ab":"6","xe6ac":"7","xe6ad":"4","xe6ae":"2","xe6af":"-","xe6b0":"3","xe6b1":"2","xe6b2":"9","xe6b3":"6","xe6b4":"1","xe6b5":"-","xe6b6":"0","xe6b7":"2","xe6b8":"7","xe6b9":"3","xe6ba":"6","xe6bb":"1","xe6bc":"9","xe6bd":"9"};
+    scoreFont.font = MockExceptionFont();
+
+    games.scoreFont = scoreFont;
+
+    List<ClubMatchInfoTransfer> clubMatchInfoTransferList =
+    await games.parseHTML(htmlString, true);
+
+    expect(clubMatchInfoTransferList.length, 10);
+
+    ClubMatchInfoTransfer firstGame = clubMatchInfoTransferList[0];
+
+    expect(firstGame.homeTeam, "SV Fühlingen II");
+    expect(firstGame.awayTeam, "FC Chorweiler");
+    expect(firstGame.status, "Absetzung");
+    expect(firstGame.homeScore, "");
+    expect(firstGame.awayScore, "");
+    expect(firstGame.time, "20:00");
+    expect(firstGame.date, "09.08.2023");
+    expect(firstGame.ageGroup, "");
+    expect(firstGame.competition, "Kreisfreundschaftsspiele");
+
+    ClubMatchInfoTransfer lastGame = clubMatchInfoTransferList[9];
+
+    expect(lastGame.homeTeam, "Fühlingen II");
+    expect(lastGame.awayTeam, "Roland West III");
+    expect(lastGame.competition, "Kreisliga D");
+    expect(lastGame.time, "13:00");
+    expect(lastGame.date, "21.05.2023");
+    expect(lastGame.homeScore, "0");
+    expect(lastGame.awayScore, "2");
+    expect(lastGame.ageGroup, "");
+    expect(lastGame.status, "");
   });
 }

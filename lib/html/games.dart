@@ -8,11 +8,11 @@ abstract interface class GamesInterface {
 }
 
 class Games implements GamesInterface {
-
   ScoreFont scoreFont = ScoreFont();
 
   @override
-  Future<List<ClubMatchInfoTransfer>> parseHTML(String html, bool isScore) async{
+  Future<List<ClubMatchInfoTransfer>> parseHTML(
+      String html, bool isScore) async {
     List<ClubMatchInfoTransfer> results = [];
 
     var document = parse(html.replaceAll('&#', ''));
@@ -33,15 +33,17 @@ class Games implements GamesInterface {
           results[rowsScore.indexOf(rowScore)];
 
       _addMainInfo(rowScore, clubMatchInfoTransfer);
-      if(isScore) {
-        clubMatchInfoTransfer.homeScore = await _getHomeScore(rowScore, clubMatchInfoTransfer);
-        clubMatchInfoTransfer.awayScore = await _getAwayScore(rowScore, clubMatchInfoTransfer);
+      if (isScore) {
+        clubMatchInfoTransfer.homeScore =
+            await _getHomeScore(rowScore, clubMatchInfoTransfer);
+        clubMatchInfoTransfer.awayScore =
+            await _getAwayScore(rowScore, clubMatchInfoTransfer);
       }
 
       _addStatus(rowScore, clubMatchInfoTransfer);
     }
 
-    if(isScore) {
+    if (isScore) {
       clearScoreFontRuntimeCache(document);
     }
 
@@ -50,18 +52,19 @@ class Games implements GamesInterface {
 
   void clearScoreFontRuntimeCache(Document document) {
     var elements = document.querySelectorAll('[data-obfuscation]');
-    
+
     Set<String> uniqueValues = {};
     for (Element element in elements) {
       uniqueValues.add(element.attributes['data-obfuscation']!);
     }
-    
+
     for (String value in uniqueValues) {
       scoreFont.fontCache.remove(value);
     }
   }
 
-  void _addStatus(Element rowScore, ClubMatchInfoTransfer clubMatchInfoTransfer) {
+  void _addStatus(
+      Element rowScore, ClubMatchInfoTransfer clubMatchInfoTransfer) {
     var spans = rowScore.getElementsByTagName('span');
     for (var span in spans) {
       if (span.attributes['class'] == 'info-text') {
@@ -70,8 +73,8 @@ class Games implements GamesInterface {
     }
   }
 
-  Future<String> _getHomeScore(Element rowScore, ClubMatchInfoTransfer clubMatchInfoTransfer) async {
-
+  Future<String> _getHomeScore(
+      Element rowScore, ClubMatchInfoTransfer clubMatchInfoTransfer) async {
     var spans = rowScore.getElementsByTagName('span');
     for (var span in spans) {
       String? dataObfuscation = span.attributes['data-obfuscation'];
@@ -82,8 +85,8 @@ class Games implements GamesInterface {
     return '';
   }
 
-  Future<String> _getAwayScore(Element rowScore, ClubMatchInfoTransfer clubMatchInfoTransfer) async {
-
+  Future<String> _getAwayScore(
+      Element rowScore, ClubMatchInfoTransfer clubMatchInfoTransfer) async {
     var spans = rowScore.getElementsByTagName('span');
     for (var span in spans) {
       String? dataObfuscation = span.attributes['data-obfuscation'];
@@ -128,14 +131,20 @@ class Games implements GamesInterface {
 
     List<String> dateTimeInfo = nodeValue.split(' - ');
     if (dateTimeInfo.isNotEmpty) {
-      clubMatchInfoTransfer.date =
-          dateTimeInfo[0].substring(dateTimeInfo[0].indexOf(',') + 2);
+      clubMatchInfoTransfer.date = dateTimeInfo[0].substring(dateTimeInfo[0].indexOf(',') + 2);
       clubMatchInfoTransfer.time = dateTimeInfo[1].split(' Uhr')[0];
 
       List<String> otherInfo = dateTimeInfo[1].split(' | ');
+      print(otherInfo);
       if (otherInfo.isNotEmpty) {
-        clubMatchInfoTransfer.ageGroup = otherInfo[1].trim();
-        clubMatchInfoTransfer.competition = otherInfo[2].trim();
+        if (otherInfo.length == 3) {
+          clubMatchInfoTransfer.ageGroup = otherInfo[1].trim();
+          clubMatchInfoTransfer.competition = otherInfo[2].trim();
+        }
+
+        if (otherInfo.length == 2) {
+          clubMatchInfoTransfer.competition = otherInfo[1].trim();
+        }
       }
     }
   }

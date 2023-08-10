@@ -35,4 +35,26 @@ class GamesController {
 
     return Response.ok(jsonEncode(responseSuccessDto));
   }
+
+  Future<Response> nextTeamAction(Request request) async{
+
+    var id = request.params['id'];
+    String html = await httpClientBridge.fetchData('/ajax.team.next.games/-/mode/PAGE/team-id/$id');
+    List<ClubMatchInfoTransfer> clubMatchInfoTransfers = await games.parseHTML(html, false);
+
+    ResponseSuccessDto responseSuccessDto = ResponseSuccessDto(clubMatchInfoTransfers);
+
+    return Response.ok(jsonEncode(responseSuccessDto));
+  }
+
+  Future<Response> prevTeamAction(Request request) async{
+
+    var id = request.params['id'];
+    String html = await httpClientBridge.fetchData('/ajax.team.prev.games/-/mode/PAGE/team-id/$id');
+    List<ClubMatchInfoTransfer> clubMatchInfoTransfers = await games.parseHTML(html, true);
+
+    ResponseSuccessDto responseSuccessDto = ResponseSuccessDto(clubMatchInfoTransfers);
+
+    return Response.ok(jsonEncode(responseSuccessDto));
+  }
 }
