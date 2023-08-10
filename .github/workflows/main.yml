@@ -29,17 +29,16 @@ jobs:
           fi
       - name: Install lcov
         run: |
-            apt-get update -y
-            apt-get install -y lcov
+          apt-get update -y
+          apt-get install -y lcov
       - name: Install fonttools
         run: |
-            apt-get install -y python3-pip
-            pip3 install fonttools
+          apt-get install -y python3-pip
+          pip3 install fonttools
       - name: Run tests
         run: dart test --coverage=./coverage
       - name: Generate LCOV report
-        run: |
-          dart run coverage:format_coverage --lcov --in=coverage/filtered_lcov.info --out=coverage.lcov --report-on=lib
+        run: dart run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov  --report-on=lib
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
