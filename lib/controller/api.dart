@@ -8,11 +8,11 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 
-class GamesController {
+class ApiController {
   final HttpClientBridge httpClientBridge;
   final GamesInterface games;
 
-  GamesController({required this.httpClientBridge, required this.games});
+  ApiController({required this.httpClientBridge, required this.games});
 
   Future<Response> nextGameAction(Request request) async{
 
