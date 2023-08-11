@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:api_fussball_dart/crawler/http_client_bridge.dart';
 import 'package:api_fussball_dart/dto/club_match_info_transfer.dart';
+import 'package:api_fussball_dart/dto/club_team_info_transfer.dart';
+import 'package:api_fussball_dart/html/club.dart';
 import 'package:api_fussball_dart/html/games.dart';
 import 'package:api_fussball_dart/dto/response_dto.dart';
 import 'package:shelf/shelf.dart';
@@ -11,8 +13,22 @@ import 'package:shelf_router/shelf_router.dart';
 class ApiController {
   final HttpClientBridge httpClientBridge;
   final GamesInterface games;
+  final Club club = Club();
 
   ApiController({required this.httpClientBridge, required this.games});
+
+
+  Future<Response> clubAction(Request request) async{
+
+    var id = request.params['id'];
+
+    String html = await httpClientBridge.fetchData('/ajax.club.teams/-/action/search/id/$id');
+    List<ClubTeamInfoTransfer> clubTeamInfoTransfer = club.parseHTML(html);
+
+    ResponseSuccessDto responseSuccessDto = ResponseSuccessDto(clubTeamInfoTransfer);
+
+    return Response.ok(jsonEncode(responseSuccessDto));
+  }
 
   Future<Response> nextGameAction(Request request) async{
 

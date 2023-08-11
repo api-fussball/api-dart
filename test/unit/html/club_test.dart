@@ -202,5 +202,13 @@ void main() {
     expect(ClubTeamInfoTransferList[3].name, 'B-Junioren - Fühlingen');
 
     expect(ClubTeamInfoTransferList[7].id, '011MIDAJT8000000VTVG0001VTR8C1K7');
+
+    var teamInfo = ClubTeamInfoTransferList[7].toJson();
+
+    var id = ClubTeamInfoTransferList[7].id;
+    expect(teamInfo['url']['nextGames'], '/api/team/next_games/$id');
+    expect(teamInfo['url']['prevGames'], '/api/team/prev_games/$id');
+    expect(teamInfo['url']['table'], '/api/team/table/$id');
+    expect(teamInfo['url']['allInfo'], '/api/team/$id');
   });
 }

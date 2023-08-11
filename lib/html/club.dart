@@ -2,8 +2,6 @@ import 'package:api_fussball_dart/dto/club_team_info_transfer.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:html/dom.dart';
 
-// https://www.fussball.de/ajax.club.teams/-/action/search/id/00ES8GN91400002IVV0AG08LVUPGND5I/
-
 class Club {
   List<ClubTeamInfoTransfer> parseHTML(String html) {
     List<ClubTeamInfoTransfer> results = [];
