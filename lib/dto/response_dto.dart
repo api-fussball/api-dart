@@ -13,6 +13,26 @@ class ResponseErrorDto {
   }
 }
 
+class ResponseInfoSuccessDto {
+  bool success = true;
+  final List<dynamic> clubs;
+  final List<dynamic> prevGames;
+  final List<dynamic> nextGames;
+
+  ResponseInfoSuccessDto(this.clubs, this.prevGames, this.nextGames);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'success': success,
+      'data': {
+        'clubs': clubs,
+        'prevGames': prevGames,
+        'nextGames': nextGames,
+      },
+    };
+  }
+}
+
 class ResponseSuccessDto {
   bool success = true;
   final List<dynamic> data;
