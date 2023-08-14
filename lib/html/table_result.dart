@@ -1,9 +1,9 @@
-import 'package:html/parser.dart' as htmlParser;
+import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
 
 class TableResult {
   List<TeamTableTransfer> parseHTML(String html) {
-    final dom.Document document = htmlParser.parse(html);
+    final dom.Document document = html_parser.parse(html);
 
     final List<dom.Element> tableInfos = document.querySelectorAll('tr');
     final List<TeamTableTransfer> tableTeamInfoList = [];

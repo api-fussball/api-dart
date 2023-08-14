@@ -22,6 +22,7 @@ final _router = Router()
   ..get('/api/team/next_games/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.nextTeamAction)(request))
   ..get('/api/team/prev_games/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.prevTeamAction)(request))
   ..get('/api/team/table/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.tableAction)(request))
+  ..get('/api/team/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.teamAction)(request))
 ;
 
 

@@ -78,6 +78,26 @@ class ApiController {
     return Response.ok(jsonEncode(responseSuccessDto));
   }
 
+  Future<Response> teamAction(Request request) async {
+    var id = request.params['id'];
+
+    var table =
+    httpClientBridge.fetchData('/ajax.team.table/-/team-id/$id');
+    var prevGames =
+    httpClientBridge.fetchData('/ajax.team.prev.games/-/mode/PAGE/team-id/$id');
+    var nextGames =
+    httpClientBridge.fetchData('/ajax.team.next.games/-/mode/PAGE/team-id/$id');
+
+    var results = await Future.wait([table, prevGames, nextGames]);
+
+    ResponseTeamInfoSuccessDto responseSuccessDto = ResponseTeamInfoSuccessDto(
+        tableResult.parseHTML(results[0]),
+        await games.parseHTML(results[1], true),
+        await games.parseHTML(results[2], false));
+
+    return Response.ok(jsonEncode(responseSuccessDto));
+  }
+
   Future<Response> nextTeamAction(Request request) async {
     var id = request.params['id'];
     String html = await httpClientBridge
@@ -108,7 +128,7 @@ class ApiController {
     var id = request.params['id'];
     String html = await httpClientBridge.fetchData('/ajax.team.table/-/team-id/$id');
     List<TeamTableTransfer> teamTableTransfer =
-        await tableResult.parseHTML(html);
+        tableResult.parseHTML(html);
 
     ResponseSuccessDto responseSuccessDto =
         ResponseSuccessDto(teamTableTransfer);

@@ -189,23 +189,23 @@ void main() {
     ''';
 
     Club club = Club();
-    List<ClubTeamInfoTransfer> ClubTeamInfoTransferList =
+    List<ClubTeamInfoTransfer> clubTeamInfoTransferList =
         club.parseHTML(htmlString);
 
-    expect(ClubTeamInfoTransferList.length, 8);
+    expect(clubTeamInfoTransferList.length, 8);
 
-    expect(ClubTeamInfoTransferList[0].id, '011MIC9NDS000000VTVG0001VTR8C1K7');
-    expect(ClubTeamInfoTransferList[0].name, 'Herren - Fühlingen I');
-    expect(ClubTeamInfoTransferList[0].fussballDeUrl,
+    expect(clubTeamInfoTransferList[0].id, '011MIC9NDS000000VTVG0001VTR8C1K7');
+    expect(clubTeamInfoTransferList[0].name, 'Herren - Fühlingen I');
+    expect(clubTeamInfoTransferList[0].fussballDeUrl,
         '/mannschaft/sv-fuehlingen-i-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/011MIC9NDS000000VTVG0001VTR8C1K7');
 
-    expect(ClubTeamInfoTransferList[3].name, 'B-Junioren - Fühlingen');
+    expect(clubTeamInfoTransferList[3].name, 'B-Junioren - Fühlingen');
 
-    expect(ClubTeamInfoTransferList[7].id, '011MIDAJT8000000VTVG0001VTR8C1K7');
+    expect(clubTeamInfoTransferList[7].id, '011MIDAJT8000000VTVG0001VTR8C1K7');
 
-    var teamInfo = ClubTeamInfoTransferList[7].toJson();
+    var teamInfo = clubTeamInfoTransferList[7].toJson();
 
-    var id = ClubTeamInfoTransferList[7].id;
+    var id = clubTeamInfoTransferList[7].id;
     expect(teamInfo['url']['nextGames'], '/api/team/next_games/$id');
     expect(teamInfo['url']['prevGames'], '/api/team/prev_games/$id');
     expect(teamInfo['url']['table'], '/api/team/table/$id');
