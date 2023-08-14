@@ -7,6 +7,7 @@ import 'package:api_fussball_dart/dto/club_team_info_transfer.dart';
 import 'package:api_fussball_dart/html/club.dart';
 import 'package:api_fussball_dart/html/games.dart';
 import 'package:api_fussball_dart/dto/response_dto.dart';
+import 'package:api_fussball_dart/html/table_result.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
@@ -14,6 +15,7 @@ class ApiController {
   final HttpClientBridge httpClientBridge;
   final GamesInterface games;
   final Club club = Club();
+  final TableResult tableResult = TableResult();
 
   ApiController({required this.httpClientBridge, required this.games});
 
@@ -98,6 +100,18 @@ class ApiController {
 
     ResponseSuccessDto responseSuccessDto =
         ResponseSuccessDto(clubMatchInfoTransfers);
+
+    return Response.ok(jsonEncode(responseSuccessDto));
+  }
+
+  Future<Response> tableAction(Request request) async {
+    var id = request.params['id'];
+    String html = await httpClientBridge.fetchData('/ajax.team.table/-/team-id/$id');
+    List<TeamTableTransfer> teamTableTransfer =
+        await tableResult.parseHTML(html);
+
+    ResponseSuccessDto responseSuccessDto =
+        ResponseSuccessDto(teamTableTransfer);
 
     return Response.ok(jsonEncode(responseSuccessDto));
   }
