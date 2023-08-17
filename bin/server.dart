@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:api_fussball_dart/controller/api.dart';
+import 'package:api_fussball_dart/controller/auth.dart';
 import 'package:api_fussball_dart/crawler/http_client_bridge.dart';
 import 'package:api_fussball_dart/html/games.dart';
 import 'package:api_fussball_dart/middleware.dart';
@@ -9,12 +10,12 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-var gamesController = ApiController(httpClientBridge: HttpClientBridge(), games: Games());
+ApiController gamesController = ApiController(httpClientBridge: HttpClientBridge(), games: Games());
+AuthController authController = AuthController();
 
 // Configure routes.
 final _router = Router()
-  ..get('/',  _rootHandler)
-  ..get('/echo/<message>', _echoHandler)
+  ..post('/api/auth/register', authController.register)
   ..get('/api/club/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.clubAction)(request))
   ..get('/api/club/info/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.clubInfoAction)(request))
   ..get('/api/club/next_games/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.nextGameAction)(request))
@@ -25,15 +26,6 @@ final _router = Router()
   ..get('/api/team/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.teamAction)(request))
 ;
 
-
-Response _rootHandler(Request req) {
-  return Response.ok('Hello, World!\n');
-}
-
-Response _echoHandler(Request request) {
-  final message = request.params['message'];
-  return Response.ok('$message\n');
-}
 
 void main(List<String> args) async {
   final ip = InternetAddress.anyIPv4;

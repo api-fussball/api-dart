@@ -66,3 +66,10 @@ Future<void> saveUser(String email, String token) async {
     await isar.users.put(newUser);
   });
 }
+
+deleteUserByEmail(String email) async {
+  final isar = await Database.isarInstance;
+  await isar.writeTxn(() async {
+    await isar.users.where().filter().emailEqualTo(email).deleteAll();
+  });
+}

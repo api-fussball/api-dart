@@ -13,6 +13,22 @@ class ResponseErrorDto {
   }
 }
 
+class ResponseAuthDto {
+  final bool success = true;
+  final String message;
+  final Map<String, dynamic> data;
+
+  ResponseAuthDto(this.message, this.data);
+
+  Map<String, dynamic> toJson() {
+    return {
+      'success': success,
+      'data': data,
+      'message': message,
+    };
+  }
+}
+
 class ResponseInfoSuccessDto {
   bool success = true;
   final List<dynamic> clubs;
