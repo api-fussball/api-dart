@@ -8,43 +8,47 @@ import 'package:email_validator/email_validator.dart';
 import 'package:shelf/shelf.dart';
 
 class AuthController {
+  static const int TOKEN_LENGTH = 29;
+  static const String CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
   Future<Response> register(Request request) async {
-
     final payload = await request.readAsString();
-    Map<String, dynamic> content = jsonDecode(payload);
 
-    if (content['email'] == null) {
-      ResponseErrorDto responseErrorDto = ResponseErrorDto('Field email not found');
-      return Response.badRequest(body: jsonEncode(responseErrorDto), headers: {'Content-Type': 'application/json'});
+    Map<String, dynamic> content;
+    try {
+      content = jsonDecode(payload);
+    } catch (e) {
+      return _errorResponse('Invalid JSON payload');
     }
 
-    if(!EmailValidator.validate(content['email'])){
-      String email = content["email"];
-      ResponseErrorDto responseErrorDto = ResponseErrorDto('Email $email is not valid');
-      return Response.badRequest(body: jsonEncode(responseErrorDto), headers: {'Content-Type': 'application/json'});
+    if (content['email'] == null) {
+      return _errorResponse('Field email not found');
+    }
+
+    if (!EmailValidator.validate(content['email'])) {
+      return _errorResponse('Email ${content["email"]} is not valid');
     }
 
     String token = _generateRandomToken();
-
-    saveUser(content['email'], token);
-
+    await saveUser(content['email'], token);
     content['token'] = token;
 
     ResponseAuthDto responseAuthDto = ResponseAuthDto(
-        'Please copy the token. After leaving the page, copying again is not possible.',
-        content
+      'Please copy the token. After leaving the page, copying again is not possible.',
+      content,
     );
 
-    return Response.ok(jsonEncode(responseAuthDto));
+    return Response.ok(jsonEncode(responseAuthDto), headers: {'Content-Type': 'application/json'});
+  }
+
+  Response _errorResponse(String message) {
+    ResponseErrorDto responseErrorDto = ResponseErrorDto(message);
+    return Response.badRequest(body: jsonEncode(responseErrorDto), headers: {'Content-Type': 'application/json'});
   }
 
   String _generateRandomToken() {
-    int length = 29;
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     final random = Random();
-    String token = List.generate(length, (index) => characters[random.nextInt(characters.length)]).join();
-
+    String token = List.generate(TOKEN_LENGTH, (index) => CHARACTERS[random.nextInt(CHARACTERS.length)]).join();
     return _mixTimestampWithToken(token);
   }
 
