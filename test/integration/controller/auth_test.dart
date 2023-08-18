@@ -81,8 +81,6 @@ void main() {
   });
 
   test('create user with token', () async {
-    await saveUser('test@unit.com', 'unit_test_token');
-
     AuthController authController = AuthController();
     Request request = MockRequest('POST', Uri.parse('http://localhost/api/auth/register'));
 
@@ -104,6 +102,20 @@ void main() {
     User? user = await findUserByToken(token);
     expect(user!.email, content['data']['email']);
     expect(user.token, token);
+  });
+
+  test('create user with token and check if another user works', () async {
+    await saveUser('test@unit.com', 'unit_test_token');
+
+    AuthController authController = AuthController();
+    Request request = MockRequest('POST', Uri.parse('http://localhost/api/auth/register'));
+
+    Response response = await authController.register(request);
+
+    expect(response.statusCode, 200);
+
+    User? existUser = await findUserByToken('unit_test_token');
+    expect(existUser!.email, 'test@unit.com');
   });
 
 
