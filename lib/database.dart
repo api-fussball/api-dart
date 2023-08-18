@@ -42,10 +42,22 @@ class FontManager {
     });
   }
 
-  deleteByName(String name) async {
+  Future<void> deleteByName(String name) async {
     final isar = await Database.isarInstance;
     await isar.writeTxn(() async {
       await isar.fonts.where().filter().nameEqualTo(name).deleteAll();
+    });
+  }
+
+  Future<void> deleteAll() async {
+    final isar = await Database.isarInstance;
+
+    final allFonts = await isar.fonts.where().findAll();
+
+    var ids = allFonts.map((e) => e.id).toList();
+
+    await isar.writeTxn(() async {
+      await isar.fonts.deleteAll(ids);
     });
   }
 }
