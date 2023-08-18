@@ -12,12 +12,10 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 class ApiController {
-  final HttpClientBridge httpClientBridge;
-  final GamesInterface games;
+  final HttpClientBridge httpClientBridge = HttpClientBridge();
+  final GamesInterface games = Games();
   final Club club = Club();
   final TableResult tableResult = TableResult();
-
-  ApiController({required this.httpClientBridge, required this.games});
 
   Future<Response> clubAction(Request request) async {
     var id = request.params['id'];

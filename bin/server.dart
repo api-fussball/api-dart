@@ -3,16 +3,14 @@ import 'dart:io';
 
 import 'package:api_fussball_dart/controller/api.dart';
 import 'package:api_fussball_dart/controller/auth.dart';
-import 'package:api_fussball_dart/crawler/http_client_bridge.dart';
 import 'package:api_fussball_dart/dto/response_dto.dart';
-import 'package:api_fussball_dart/html/games.dart';
 import 'package:api_fussball_dart/middleware.dart';
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-ApiController gamesController = ApiController(httpClientBridge: HttpClientBridge(), games: Games());
+ApiController gamesController = ApiController();
 AuthController authController = AuthController();
 
 // Configure routes.
