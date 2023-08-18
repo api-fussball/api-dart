@@ -145,19 +145,64 @@ void main() {
 
   });
 
+  test('success: api prev game with score', () async {
+
+    final headers = {'x-auth-token': 'unit_test_token'};
+    final response = await get(Uri.parse('$host/api/club/prev_games/00ES8GN91400002IVV0AG08LVUPGND5I'), headers: headers);
+    expect(response.statusCode, 200, reason: 'Error Body: ${response.body}');
 
 
+    String decodedJson = utf8.decode(response.body.codeUnits);
+
+    Map<String, dynamic> jsonObject = json.decode(decodedJson);
+
+    expect(jsonObject, isNotNull);
+    expect(jsonObject['success'], isTrue);
+    expect(jsonObject['data'], isList);
+    expect(jsonObject['data'], isNotEmpty);
+
+    checkTime(jsonObject['data']);
+    checkTeam(jsonObject['data'], 'Fühlingen I');
+
+    int score = getScore(jsonObject['data']);
+    expect(score, greaterThan(0));
+  });
 
 
-  //
-  // test('Echo', () async {
-  //   final response = await get(Uri.parse('$host/echo/hello'));
-  //   expect(response.statusCode, 200);
-  //   expect(response.body, 'hello\n');
-  // });
-  //
-  // test('404', () async {
-  //   final response = await get(Uri.parse('$host/foobar'));
-  //   expect(response.statusCode, 404);
-  // });
+  test('success: api prev club match with score', () async {
+
+    final headers = {'x-auth-token': 'unit_test_token'};
+    final response = await get(Uri.parse('$host/api/team/prev_games/011MIC9NDS000000VTVG0001VTR8C1K7'), headers: headers);
+    expect(response.statusCode, 200, reason: 'Error Body: ${response.body}');
+
+
+    String decodedJson = utf8.decode(response.body.codeUnits);
+
+    Map<String, dynamic> jsonObject = json.decode(decodedJson);
+
+    expect(jsonObject, isNotNull);
+    expect(jsonObject['success'], isTrue);
+    expect(jsonObject['data'], isList);
+    expect(jsonObject['data'], isNotEmpty);
+
+    checkTime(jsonObject['data']);
+    checkTeam(jsonObject['data'], 'Fühlingen I');
+
+    int score = getScore(jsonObject['data']);
+    expect(score, greaterThan(0));
+  });
+
+  test('404', () async {
+    final response = await get(Uri.parse('$host/api/not_found'));
+
+    expect(response.statusCode, 404);
+
+    Map<String, dynamic> jsonObject = json.decode(response.body);
+
+    expect(jsonObject, isNotNull);
+    expect(jsonObject['success'], isFalse);
+    expect(jsonObject['data'], isList);
+    expect(jsonObject['data'], isEmpty);
+    expect(jsonObject['message'], equals('Route not found'));
+  });
 }
