@@ -79,7 +79,7 @@ Future<void> saveUser(String email, String token) async {
   });
 }
 
-deleteUserByEmail(String email) async {
+Future<void> deleteUserByEmail(String email) async {
   final isar = await Database.isarInstance;
   await isar.writeTxn(() async {
     await isar.users.where().filter().emailEqualTo(email).deleteAll();

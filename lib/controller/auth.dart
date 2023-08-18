@@ -8,8 +8,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:shelf/shelf.dart';
 
 class AuthController {
-  static const int TOKEN_LENGTH = 29;
-  static const String CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  static const int tokenLength = 29;
+  static const String characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
   Future<Response> register(Request request) async {
     final payload = await request.readAsString();
@@ -48,7 +48,7 @@ class AuthController {
 
   String _generateRandomToken() {
     final random = Random();
-    String token = List.generate(TOKEN_LENGTH, (index) => CHARACTERS[random.nextInt(CHARACTERS.length)]).join();
+    String token = List.generate(tokenLength, (index) => characters[random.nextInt(characters.length)]).join();
     return _mixTimestampWithToken(token);
   }
 

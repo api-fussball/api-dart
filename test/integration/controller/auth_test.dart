@@ -25,7 +25,7 @@ void main() {
   });
 
   tearDown(() async {
-    await deleteUserByEmail('john@doe.de');
+
   });
 
 
@@ -81,6 +81,8 @@ void main() {
   });
 
   test('create user with token', () async {
+    await deleteUserByEmail('john@doe.de');
+
     AuthController authController = AuthController();
     Request request = MockRequest('POST', Uri.parse('http://localhost/api/auth/register'));
 

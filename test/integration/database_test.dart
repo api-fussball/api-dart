@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:api_fussball_dart/controller/auth.dart';
 import 'package:api_fussball_dart/database.dart';
-import 'package:api_fussball_dart/entities/user.dart';
 import 'package:shelf/shelf.dart';
 import 'package:test/test.dart';
 
@@ -19,16 +17,6 @@ class MockRequest extends Request{
 }
 
 void main() {
-
-  setUp(() async {
-
-  });
-
-  tearDown(() async {
-    await deleteUserByEmail('john@doe.de');
-  });
-
-
   test('delete all fonts', () async {
 
     FontManager fontManager = FontManager();
