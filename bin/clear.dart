@@ -1,6 +1,7 @@
 import 'package:api_fussball_dart/database.dart';
 
-void main() {
+void main() async {
   FontManager fontManager = FontManager();
-  fontManager.deleteAll();
+  var deleteIds = await fontManager.deleteAll();
+  print(deleteIds);
 }

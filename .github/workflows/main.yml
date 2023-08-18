@@ -45,3 +45,13 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: coverage.lcov
           fail_ci_if_error: true
+      - name: Compile server.dart
+        run: dart compile exe bin/server.dart -o bin/server
+      - name: Compile clear.dart
+        run: dart compile exe bin/clear.dart -o bin/clear
+      - name: Deploy to server
+        run: |
+          scp bin/server ${{ secrets.SERVER_USER }}:/srv/football-api/dart-api
+          scp bin/clear ${{ secrets.SERVER_USER }}:/srv/football-api/dart-api
+        env:
+          PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}

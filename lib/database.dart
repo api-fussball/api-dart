@@ -49,16 +49,19 @@ class FontManager {
     });
   }
 
-  Future<void> deleteAll() async {
+  Future<List<int>> deleteAll() async {
     final isar = await Database.isarInstance;
 
     final allFonts = await isar.fonts.where().findAll();
-
     var ids = allFonts.map((e) => e.id).toList();
 
+
     await isar.writeTxn(() async {
-      await isar.fonts.deleteAll(ids);
+      await isar.fonts.clear();
     });
+
+
+    return ids;
   }
 }
 

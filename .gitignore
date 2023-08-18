@@ -8,3 +8,6 @@ libisar.so
 coverage/
 fonts/*
 !fonts/.gitkeep
+
+bin/server
+bin/clear
