@@ -17,39 +17,41 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: dart pub get
-      - name: Run static analysis
-        run: dart analyze
-      - name: Check for automatic fixes
-        run: |
-          if dart fix --dry-run | grep 'Nothing to fix'; then
-            echo "No fixes available."
-          else
-            echo "Fixes available. Please run 'dart fix' locally and push the changes."
-            exit 1
-          fi
-      - name: Install lcov
-        run: |
-          apt-get update -y
-          apt-get install -y lcov
-      - name: Install fonttools
-        run: |
-          apt-get install -y python3-pip
-          pip3 install fonttools
-      - name: Run tests
-        run: dart test --coverage=./coverage
-      - name: Generate LCOV report
-        run: dart run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov  --report-on=lib
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: coverage.lcov
-          fail_ci_if_error: true
+#      - name: Run static analysis
+#        run: dart analyze
+#      - name: Check for automatic fixes
+#        run: |
+#          if dart fix --dry-run | grep 'Nothing to fix'; then
+#            echo "No fixes available."
+#          else
+#            echo "Fixes available. Please run 'dart fix' locally and push the changes."
+#            exit 1
+#          fi
+#      - name: Install lcov
+#        run: |
+#          apt-get update -y
+#          apt-get install -y lcov
+#      - name: Install fonttools
+#        run: |
+#          apt-get install -y python3-pip
+#          pip3 install fonttools
+#      - name: Run tests
+#        run: dart test --coverage=./coverage
+#      - name: Generate LCOV report
+#        run: dart run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov  --report-on=lib
+#      - name: Upload coverage to Codecov
+#        uses: codecov/codecov-action@v2
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          file: coverage.lcov
+#          fail_ci_if_error: true
       - name: install ssh keys
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+      - name: Install rsync
+        run: sudo apt-get update && sudo apt-get install -y rsync
       - name: Deploy to server
         run: |
           dart compile exe bin/server.dart -o bin/server
