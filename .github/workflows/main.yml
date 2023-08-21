@@ -49,6 +49,13 @@ jobs:
         run: dart compile exe bin/server.dart -o bin/server
       - name: Compile clear.dart
         run: dart compile exe bin/clear.dart -o bin/clear
+      - name: Configure SSH
+        run: |
+          [ -d "~/.ssh" ] || mkdir ~/.ssh \
+          && echo "${{ secrets.SSH_CONFIG_CONTENT }}" > ~/.ssh/config
+          && chmod -R 0700 ~/.ssh \
+          && eval $(ssh-agent -s) \
+          && echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
       - name: Deploy to server
         run: |
           [ -d "~/.ssh" ] || mkdir ~/.ssh \
