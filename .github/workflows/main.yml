@@ -54,6 +54,4 @@ jobs:
         run: |
           dart compile exe bin/server.dart -o bin/server
           dart compile exe bin/clear.dart -o bin/clear
-          ls -la bin
-          chmod +x bin/{clear,server}
-          rsync -o 'StrictHostKeychecking no' -az bin/{clear,server} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
+          rsync -o 'StrictHostKeychecking no' -az bin/server ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
