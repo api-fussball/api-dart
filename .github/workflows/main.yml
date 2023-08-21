@@ -45,10 +45,6 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: coverage.lcov
           fail_ci_if_error: true
-      - name: Compile server.dart
-        run: dart compile exe bin/server.dart -o bin/server
-      - name: Compile clear.dart
-        run: dart compile exe bin/clear.dart -o bin/clear
       - name: install ssh keys
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
@@ -56,5 +52,8 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
       - name: Deploy to server
         run: |
+          dart compile exe bin/server.dart -o bin/server
+          dart compile exe bin/clear.dart -o bin/clear
+          ls -la bin
           chmod +x bin/{clear,server}
           rsync -o 'StrictHostKeychecking no' -az bin/{clear,server} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
