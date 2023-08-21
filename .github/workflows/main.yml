@@ -49,6 +49,7 @@ jobs:
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
       - name: Install rsync
         run: apt-get update && apt-get install -y rsync
@@ -56,4 +57,4 @@ jobs:
         run: |
           dart compile exe bin/server.dart -o bin/server
           dart compile exe bin/clear.dart -o bin/clear
-          rsync -o 'StrictHostKeychecking no' -az bin/server ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
+          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/server ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
