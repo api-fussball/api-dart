@@ -49,19 +49,12 @@ jobs:
         run: dart compile exe bin/server.dart -o bin/server
       - name: Compile clear.dart
         run: dart compile exe bin/clear.dart -o bin/clear
-      - name: Configure SSH
+      - name: install ssh keys
         run: |
-          [ -d "~/.ssh" ] || mkdir ~/.ssh \
-          && echo "${{ secrets.SSH_CONFIG_CONTENT }}" > ~/.ssh/config
-          && chmod -R 0700 ~/.ssh \
-          && eval $(ssh-agent -s) \
-          && echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
       - name: Deploy to server
         run: |
-          [ -d "~/.ssh" ] || mkdir ~/.ssh \
-          && cp $SSH_CONFIG ~/.ssh/config \
-          && chmod -R 0700 ~/.ssh \
-          && eval $(ssh-agent -s) \
-          && echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
           chmod +x bin/{clear,server}
-          rsync -az bin/{clear,server} ninja_server:/srv/football-api/dart-api
+          rsync -o 'StrictHostKeychecking no' -az bin/{clear,server} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
