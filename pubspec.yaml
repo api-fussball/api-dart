@@ -17,6 +17,7 @@ dependencies:
   xml: ^6.3.0
   sprintf: ^7.0.0
   email_validator: ^2.1.17
+  sentry: ^7.9.0
 
 
 dev_dependencies:
