@@ -118,7 +118,7 @@ void main() {
     expect(jsonObject['success'], isFalse);
     expect(jsonObject['data'], isList);
     expect(jsonObject['data'], isEmpty);
-    expect(jsonObject['message'], equals('Exception: Error on URL: https://fussball.de/ajax.club.next.games/-/id/id/mode/PAGE'));
+    expect(jsonObject['message'], equals('Exception: Error on URL: https://www.fussball.de/ajax.club.next.games/-/id/id/mode/PAGE'));
   });
 
   test('success: api next game', () async {
