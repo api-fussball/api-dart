@@ -51,7 +51,10 @@ jobs:
         run: dart compile exe bin/clear.dart -o bin/clear
       - name: Deploy to server
         run: |
-          scp -o StrictHostKeyChecking=no bin/server ${{ secrets.SERVER_USER }}:/srv/football-api/dart-api
-          scp -o StrictHostKeyChecking=no bin/clear ${{ secrets.SERVER_USER }}:/srv/football-api/dart-api
-        env:
-          PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          [ -d "~/.ssh" ] || mkdir ~/.ssh \
+          && cp $SSH_CONFIG ~/.ssh/config \
+          && chmod -R 0700 ~/.ssh \
+          && eval $(ssh-agent -s) \
+          && echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+          chmod +x bin/{clear,server}
+          rsync -az bin/{clear,server} ninja_server:/srv/football-api/dart-api
