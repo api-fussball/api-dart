@@ -17,7 +17,7 @@ void main() {
       environment: {'PORT': port},
     );
 
-    saveUser('test@unit.com', 'unit_test_token');
+    await saveUser('test@unit.com', 'unit_test_token');
 
     await p.stdout.first;
   });

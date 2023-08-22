@@ -1,20 +1,5 @@
-import 'dart:convert';
-
 import 'package:api_fussball_dart/database.dart';
-import 'package:shelf/shelf.dart';
 import 'package:test/test.dart';
-
-
-class MockRequest extends Request{
-  MockRequest(super.method, super.requestedUri);
-
-  String data = '{"email":"john@doe.de"}';
-
-  @override
-  Future<String> readAsString([Encoding? encoding]) async {
-    return data;
-  }
-}
 
 void main() {
   test('delete all fonts', () async {

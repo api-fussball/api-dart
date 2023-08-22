@@ -19,16 +19,6 @@ class MockRequest extends Request{
 }
 
 void main() {
-
-  setUp(() async {
-
-  });
-
-  tearDown(() async {
-
-  });
-
-
   test('send incorrect json', () async {
     AuthController authController = AuthController();
     MockRequest request = MockRequest('POST', Uri.parse('http://localhost/api/auth/register'));
