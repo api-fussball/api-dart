@@ -46,6 +46,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          log-public-key: false
       - name: Deploy to server
         run: |
           dart compile exe bin/server.dart -o bin/server

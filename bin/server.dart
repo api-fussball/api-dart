@@ -15,6 +15,7 @@ AuthController authController = AuthController();
 
 // Configure routes.
 final _router = Router()
+  ..post('/auth/register', authController.register)
   ..post('/api/auth/register', authController.register)
   ..get('/api/club/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.clubAction)(request))
   ..get('/api/club/info/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.clubInfoAction)(request))
