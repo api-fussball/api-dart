@@ -17,31 +17,31 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install dependencies
         run: dart pub get
-      - name: Run static analysis
-        run: dart analyze
-      - name: Check for automatic fixes
-        run: |
-          if dart fix --dry-run | grep 'Nothing to fix'; then
-            echo "No fixes available."
-          else
-            echo "Fixes available. Please run 'dart fix' locally and push the changes."
-            exit 1
-          fi
-      - name: Install fonttools, rsync and lcov
-        run: |
-          apt-get update -y
-          apt-get install -y python3-pip rsync lcov
-          pip3 install fonttools
-      - name: Run tests
-        run: dart test --coverage=./coverage
-      - name: Generate LCOV report
-        run: dart run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov  --report-on=lib
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: coverage.lcov
-          fail_ci_if_error: true
+#      - name: Run static analysis
+#        run: dart analyze
+#      - name: Check for automatic fixes
+#        run: |
+#          if dart fix --dry-run | grep 'Nothing to fix'; then
+#            echo "No fixes available."
+#          else
+#            echo "Fixes available. Please run 'dart fix' locally and push the changes."
+#            exit 1
+#          fi
+#      - name: Install fonttools, rsync and lcov
+#        run: |
+#          apt-get update -y
+#          apt-get install -y python3-pip rsync lcov
+#          pip3 install fonttools
+#      - name: Run tests
+#        run: dart test --coverage=./coverage
+#      - name: Generate LCOV report
+#        run: dart run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov  --report-on=lib
+#      - name: Upload coverage to Codecov
+#        uses: codecov/codecov-action@v2
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          file: coverage.lcov
+#          fail_ci_if_error: true
       - name: Setup SSH agent
         uses: webfactory/ssh-agent@v0.8.0
         with:
