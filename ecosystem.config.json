@@ -1,0 +1,19 @@
+{
+  "apps": [
+    {
+      "name": "dart_fussball_api",
+      "script": "./bin/server",
+      "watch": true,
+      "ignore_watch": ["fonts"],
+      "watch_options": {
+        "followSymlinks": false
+      },
+      "autorestart": true,
+      "restart_delay": 4000,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "out_file": "/var/log/dart-api.log",
+      "error_file": "/var/log/dart-api-error.log",
+      "combine_logs": true
+    }
+  ]
+}

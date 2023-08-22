@@ -17,48 +17,44 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install dependencies
         run: dart pub get
-#      - name: Run static analysis
-#        run: dart analyze
-#      - name: Check for automatic fixes
-#        run: |
-#          if dart fix --dry-run | grep 'Nothing to fix'; then
-#            echo "No fixes available."
-#          else
-#            echo "Fixes available. Please run 'dart fix' locally and push the changes."
-#            exit 1
-#          fi
-#      - name: Install lcov
-#        run: |
-#          apt-get update -y
-#          apt-get install -y lcov
-#      - name: Install fonttools
-#        run: |
-#          apt-get install -y python3-pip
-#          pip3 install fonttools
-#      - name: Run tests
-#        run: dart test --coverage=./coverage
-#      - name: Generate LCOV report
-#        run: dart run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov  --report-on=lib
-#      - name: Upload coverage to Codecov
-#        uses: codecov/codecov-action@v2
-#        with:
-#          token: ${{ secrets.CODECOV_TOKEN }}
-#          file: coverage.lcov
-#          fail_ci_if_error: true
-#      - name: Setup SSH
-#        run: |
-#          mkdir -p ~/.ssh/
-#          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-#          chmod 600 ~/.ssh/id_rsa
-#          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: Run static analysis
+        run: dart analyze
+      - name: Check for automatic fixes
+        run: |
+          if dart fix --dry-run | grep 'Nothing to fix'; then
+            echo "No fixes available."
+          else
+            echo "Fixes available. Please run 'dart fix' locally and push the changes."
+            exit 1
+          fi
+      - name: Install lcov
+        run: |
+          apt-get update -y
+          apt-get install -y lcov
+      - name: Install fonttools
+        run: |
+          apt-get install -y python3-pip
+          pip3 install fonttools
+      - name: Run tests
+        run: dart test --coverage=./coverage
+      - name: Generate LCOV report
+        run: dart run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov  --report-on=lib
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage.lcov
+          fail_ci_if_error: true
       - name: Install rsync
         run: apt-get update && apt-get install -y rsync
       - name: Setup SSH agent
-        uses: webfactory/ssh-agent@v0.7.0
+        uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Deploy to server
         run: |
           dart compile exe bin/server.dart -o bin/server
           dart compile exe bin/clear.dart -o bin/clear
-          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/server ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
+          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/{server,clear} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
+          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" ecosystem.config.js ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /srv/football-api/dart-api && pm2 restart ecosystem.config.js"
