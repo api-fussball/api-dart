@@ -27,13 +27,10 @@ jobs:
             echo "Fixes available. Please run 'dart fix' locally and push the changes."
             exit 1
           fi
-      - name: Install lcov
+      - name: Install fonttools, rsync and lcov
         run: |
           apt-get update -y
-          apt-get install -y lcov
-      - name: Install fonttools
-        run: |
-          apt-get install -y python3-pip
+          apt-get install -y python3-pip rsync lcov
           pip3 install fonttools
       - name: Run tests
         run: dart test --coverage=./coverage
@@ -45,8 +42,6 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: coverage.lcov
           fail_ci_if_error: true
-      - name: Install rsync
-        run: apt-get update && apt-get install -y rsync
       - name: Setup SSH agent
         uses: webfactory/ssh-agent@v0.8.0
         with:
@@ -55,6 +50,7 @@ jobs:
         run: |
           dart compile exe bin/server.dart -o bin/server
           dart compile exe bin/clear.dart -o bin/clear
-          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/{server,clear} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
+          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/server ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
+          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/clear ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
           rsync -vaz -e "ssh -o StrictHostKeyChecking=no" ecosystem.config.js ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /srv/football-api/dart-api && pm2 restart ecosystem.config.js"
