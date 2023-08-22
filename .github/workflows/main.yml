@@ -45,14 +45,18 @@ jobs:
 #          token: ${{ secrets.CODECOV_TOKEN }}
 #          file: coverage.lcov
 #          fail_ci_if_error: true
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh/
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+#      - name: Setup SSH
+#        run: |
+#          mkdir -p ~/.ssh/
+#          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+#          chmod 600 ~/.ssh/id_rsa
+#          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Install rsync
         run: apt-get update && apt-get install -y rsync
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Deploy to server
         run: |
           dart compile exe bin/server.dart -o bin/server
