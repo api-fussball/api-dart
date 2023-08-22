@@ -14,7 +14,8 @@ jobs:
       image: dart:latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.7.0
       - name: Install dependencies
         run: dart pub get
 #      - name: Run static analysis
@@ -45,12 +46,13 @@ jobs:
 #          token: ${{ secrets.CODECOV_TOKEN }}
 #          file: coverage.lcov
 #          fail_ci_if_error: true
-      - name: install ssh keys
-        run: |
-          install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: { %- raw -% } ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }}{% endraw%} >> ~/.ssh/known_hosts
+
       - name: Install rsync
         run: apt-get update && apt-get install -y rsync
       - name: Deploy to server
@@ -58,3 +60,4 @@ jobs:
           dart compile exe bin/server.dart -o bin/server
           dart compile exe bin/clear.dart -o bin/clear
           rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/server ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
+          
