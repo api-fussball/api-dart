@@ -50,7 +50,7 @@ jobs:
         run: |
           dart compile exe bin/server.dart -o bin/server
           dart compile exe bin/clear.dart -o bin/clear
-          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/server ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
-          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/clear ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
-          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" ecosystem.config.js ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /srv/football-api/dart-api && pm2 restart ecosystem.config.js"
+          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/server ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api/bin
+          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/clear ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api/bin
+          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" ecosystem.config.json ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /srv/football-api/dart-api && pm2 restart ecosystem.config.json"
