@@ -27,11 +27,14 @@ jobs:
             echo "Fixes available. Please run 'dart fix' locally and push the changes."
             exit 1
           fi
-      - name: Install fonttools, rsync and lcov
+      - name: Install fonttools
         run: |
           apt-get update -y
-          apt-get install -y python3-pip rsync lcov
+          apt-get install -y python3-pip
           pip3 install fonttools
+      - name: Install rsync
+        run: |
+          apt-get install -y python3-pip rsync
       - name: Run tests
         run: dart test --coverage=./coverage
       - name: Generate LCOV report
