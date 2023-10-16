@@ -30,11 +30,10 @@ jobs:
       - name: Install fonttools
         run: |
           apt-get update -y
-          apt-get install -y python3-pip
-          pip3 install fonttools
+          apt-get install -y fonttools
       - name: Install rsync
         run: |
-          apt-get install -y python3-pip rsync
+          apt-get install -y rsync
       - name: Run tests
         run: dart test --coverage=./coverage
       - name: Generate LCOV report
