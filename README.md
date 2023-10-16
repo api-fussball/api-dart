@@ -3,12 +3,7 @@
 The application goes to Fussball.de and provides you with the next and past match of your club or team.
 
 
-# Running the sample
-
-## Running with the Dart SDK
-
-You can run the example with the [Dart SDK](https://dart.dev/get-dart)
-like this:
+# Running 
 
 ```
 $ dart run bin/server.dart
@@ -28,10 +23,22 @@ You should see the logging printed in the first terminal:
 ## Debug Mode
 
 ```
-dart run --observe  bin/server.dart 
+dart run --observe bin/server.dart 
 ```
 
-## Test
+# For Pull Request
+
+Before you make a pull request, please run the following commands:
+
+```
+dart test -j 1
+dart fix --dry-run
+dart analyze
+```
+
+And check that everything is ok.
+
+# Test
 
 In dart the test pairs were started, that with the DB can cause certain problems, therefore we start test only with a process.
 
