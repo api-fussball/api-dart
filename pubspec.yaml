@@ -12,7 +12,6 @@ dependencies:
   shelf_router: ^1.1.0
   http: ^1.0.0
   html: ^0.15.4
-  xpath_selector_html_parser: ^3.0.1
   isar: ^3.1.0+1
   xml: ^6.3.0
   sprintf: ^7.0.0
