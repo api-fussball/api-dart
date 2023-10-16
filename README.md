@@ -31,4 +31,12 @@ You should see the logging printed in the first terminal:
 dart run --observe  bin/server.dart 
 ```
 
+## Test
+
+In dart the test pairs were started, that with the DB can cause certain problems, therefore we start test only with a process.
+
+```
+dart test -j 1
+```
+
 
