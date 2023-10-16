@@ -27,13 +27,10 @@ jobs:
             echo "Fixes available. Please run 'dart fix' locally and push the changes."
             exit 1
           fi
-      - name: Install fonttools
+      - name: Install fonttools and rsync
         run: |
           apt-get update -y
-          apt-get install -y fonttools
-      - name: Install rsync
-        run: |
-          apt-get install -y rsync
+          apt-get install -y fonttools rsync
       - name: Run tests
         run: dart test --coverage=./coverage
       - name: Generate LCOV report
@@ -51,10 +48,14 @@ jobs:
           log-public-key: false
       - name: Deploy to server
         run: |
-          dart compile exe bin/server.dart -o bin/server
-          dart compile exe bin/clear.dart -o bin/clear
-          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/server ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api/bin
-          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/clear ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api/bin
-          rsync -vaz -e "ssh -o StrictHostKeyChecking=no" ecosystem.config.json ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "source ~/.bashrc; cd /srv/football-api/dart-api; pm2 restart ecosystem.config.json" 
+          if [ "${{ github.event_name }}" == "pull_request" ] && [ "${{ github.event.pull_request.merged }}" == "true" ]; then
+            dart compile exe bin/server.dart -o bin/server
+            dart compile exe bin/clear.dart -o bin/clear
+            rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/server ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api/bin
+            rsync -vaz -e "ssh -o StrictHostKeyChecking=no" bin/clear ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api/bin
+            rsync -vaz -e "ssh -o StrictHostKeyChecking=no" ecosystem.config.json ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/srv/football-api/dart-api
+            ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "source ~/.bashrc; cd /srv/football-api/dart-api; pm2 restart ecosystem.config.json" 
+          else
+            echo "Deployment is only triggered when a pull request is merged into main."
+          fi 
           
