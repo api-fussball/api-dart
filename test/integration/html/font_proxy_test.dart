@@ -26,7 +26,7 @@ class MockExceptionFont implements FontInterface {
 void main() {
 
   tearDown(() async {
-    FontManager().deleteByName('unit');
+    await FontManager().deleteAll();
   });
 
   test('Font proxy decode', () async {

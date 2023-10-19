@@ -42,13 +42,6 @@ class FontManager {
     });
   }
 
-  Future<void> deleteByName(String name) async {
-    final isar = await Database.isarInstance;
-    await isar.writeTxn(() async {
-      await isar.fonts.where().filter().nameEqualTo(name).deleteAll();
-    });
-  }
-
   Future<List<int>> deleteAll() async {
     final isar = await Database.isarInstance;
 
