@@ -369,4 +369,39 @@ void main() {
     expect(team.isPromotion, isFalse);
     expect(team.isRelegation, isTrue);
   });
+
+  group('TeamTableTransfer', () {
+      test('toJson', () {
+          var teamTableTransfer = TeamTableTransfer()
+              ..place = 1
+              ..team = 'TeamName'
+              ..img = 'imageURL'
+              ..games = 10
+              ..won = 5
+              ..draw = 3
+              ..lost = 2
+              ..goal = '15:10'
+              ..goalDifference = 5
+              ..points = 18
+              ..isRelegation = false
+              ..isPromotion = true;
+
+          var expectedJson = {
+              'place': 1,
+              'team': 'TeamName',
+              'img': 'imageURL',
+              'games': 10,
+              'won': 5,
+              'draw': 3,
+              'lost': 2,
+              'goal': '15:10',
+              'goalDifference': 5,
+              'points': 18,
+              'isRelegation': false,
+              'isPromotion': true,
+          };
+
+          expect(teamTableTransfer.toJson(), expectedJson);
+      });
+  });
 }

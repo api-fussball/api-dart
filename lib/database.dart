@@ -57,7 +57,10 @@ class FontManager {
     return ids;
   }
 }
-
+Future<List<User?>> findAllUser() async {
+  final isar = await Database.isarInstance;
+  return await isar.users.where().findAll();
+}
 
 Future<User?> findUserByToken(String token) async {
   final isar = await Database.isarInstance;
@@ -66,12 +69,18 @@ Future<User?> findUserByToken(String token) async {
 
 Future<void> saveUser(String email, String token) async {
   final isar = await Database.isarInstance;
+  var userDb = isar.users;
+
+  await isar.writeTxn(() async {
+    await userDb.where().filter().emailEqualTo(email).deleteAll();
+  });
+
   final newUser = User()
     ..email = email
     ..token = token;
 
   await isar.writeTxn(() async {
-    await isar.users.put(newUser);
+    await userDb.put(newUser);
   });
 }
 
@@ -81,3 +90,36 @@ Future<void> deleteUserByEmail(String email) async {
     await isar.users.where().filter().emailEqualTo(email).deleteAll();
   });
 }
+
+Future<void> saveUsersToJson() async {
+  var users = await findAllUser();
+  Map<String, String> userMap = {};
+
+  for (var user in users) {
+    userMap[user!.email ?? 'defaultEmail'] = user.token ?? 'defaultToken';
+  }
+
+  String jsonStr = jsonEncode(userMap);
+  await File('users.json').writeAsString(jsonStr);
+}
+
+
+Future<List<String>> importUsersFromJson() async {
+  final file = File('users.json');
+  if (!await file.exists()) {
+    throw Exception('File users.json does not exist');
+  }
+
+  final content = await file.readAsString();
+  final Map<String, dynamic> usersMap = jsonDecode(content);
+
+  List<String> importedEmails = [];
+
+  for (var email in usersMap.keys) {
+    await saveUser(email, usersMap[email]);
+    importedEmails.add(email);
+  }
+
+  return importedEmails;
+}
+
