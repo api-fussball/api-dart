@@ -11,3 +11,7 @@ fonts/*
 
 bin/server
 bin/clear
+bin/dump
+bin/backup
+
+users.json
