@@ -1,12 +1,12 @@
 import 'package:isar/isar.dart';
 
-part 'user.g.dart';
+part 'rate_limit.g.dart';
 
 @collection
-class User {
+class RateLimit {
   Id id = Isar.autoIncrement;
 
-  String? email;
+  int? userId;
 
-  String? token;
+  int? time;
 }

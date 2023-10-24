@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:api_fussball_dart/database.dart';
+import 'package:api_fussball_dart/entities/user.dart';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 
@@ -23,6 +24,7 @@ void main() {
   });
 
   tearDown(() async {
+    await RateLimitManager().clear();
     p.kill();
   });
 
@@ -81,7 +83,7 @@ void main() {
 
   test('error: call url without x-auth-header', () async {
     final response = await get(Uri.parse('$host/api/club/next_games/id'));
-    expect(response.statusCode, 403);
+    expect(response.statusCode, 401);
 
     Map<String, dynamic> jsonObject = json.decode(response.body);
 
@@ -95,7 +97,7 @@ void main() {
   test('error: call url with wrong x-auth-header', () async {
     final headers = {'x-auth-token': 'wrong_token'};
     final response = await get(Uri.parse('$host/api/club/next_games/id'), headers: headers);
-    expect(response.statusCode, 403);
+    expect(response.statusCode, 401);
 
     Map<String, dynamic> jsonObject = json.decode(response.body);
 
@@ -119,6 +121,26 @@ void main() {
     expect(jsonObject['data'], isList);
     expect(jsonObject['data'], isEmpty);
     expect(jsonObject['message'], equals('Exception: Error on URL: https://www.fussball.de/ajax.club.next.games/-/id/id/mode/PAGE'));
+  });
+
+  test('error: call url with extend rate limit', () async {
+    User? user = await findUserByToken('unit_test_token');
+    RateLimitManager rateLimitManager = RateLimitManager();
+    for (int i = 0; i < 40; i++) {
+      rateLimitManager.add(user!.id);
+    }
+
+    final headers = {'x-auth-token': 'unit_test_token'};
+    final response = await get(Uri.parse('$host/api/club/next_games/00ES8GN91400002IVV0AG08LVUPGND5I'), headers: headers);
+    expect(response.statusCode, 429, reason: 'Error Body: ${response.body}');
+
+    Map<String, dynamic> jsonObject = json.decode(response.body);
+
+    expect(jsonObject, isNotNull);
+    expect(jsonObject['success'], isFalse);
+    expect(jsonObject['data'], isList);
+    expect(jsonObject['data'], isEmpty);
+    expect(jsonObject['message'], equals('You are allowed a maximum of 30 queries per minute. Please try again later.'));
   });
 
   test('success: api next game', () async {
@@ -190,6 +212,20 @@ void main() {
 
     int score = getScore(jsonObject['data']);
     expect(score, greaterThan(0));
+  });
+
+  test('success: api next game, check rate limit', () async {
+
+    final headers = {'x-auth-token': 'unit_test_token'};
+    final response = await get(Uri.parse('$host/api/club/next_games/00ES8GN91400002IVV0AG08LVUPGND5I'), headers: headers);
+    expect(response.statusCode, 200, reason: 'Error Body: ${response.body}');
+    final responseSecond = await get(Uri.parse('$host/api/club/next_games/00ES8GN91400002IVV0AG08LVUPGND5I'), headers: headers);
+    expect(responseSecond.statusCode, 200, reason: 'Error Body: ${responseSecond.body}');
+
+    User? user = await findUserByToken('unit_test_token');
+    int rateLimit = await RateLimitManager().get(user!.id);
+
+    expect(rateLimit, 2);
   });
 
   test('404', () async {

@@ -4,4 +4,6 @@ void main() async {
   FontManager fontManager = FontManager();
   var deleteIds = await fontManager.deleteAll();
   print(deleteIds);
+
+  RateLimitManager().clear();
 }
