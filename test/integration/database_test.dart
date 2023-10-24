@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:api_fussball_dart/database.dart';
+import 'package:api_fussball_dart/entities/rate_limit.dart';
 import 'package:api_fussball_dart/entities/user.dart';
 import 'package:test/test.dart';
 
@@ -16,6 +17,8 @@ void main() {
     await deleteUserByEmail('test1@email.com');
     await deleteUserByEmail('test2@email.com');
     await deleteUserByEmail('exist@user.com');
+
+    await RateLimitManager().clear();
   });
 
 
@@ -74,5 +77,60 @@ void main() {
 
     user = await findUserByToken('new_user');
     expect(user!.email, 'exist@user.com');
+  });
+
+  test('test rate limit', () async {
+    RateLimitManager rateLimitManager = RateLimitManager();
+
+    int rateLimitUser99 = await rateLimitManager.get(99);
+    int rateLimitUser1 = await rateLimitManager.get(1);
+
+    expect(rateLimitUser99, 0);
+    expect(rateLimitUser1, 0);
+
+    await rateLimitManager.add(99);
+    await rateLimitManager.add(1);
+    await rateLimitManager.add(99);
+    await rateLimitManager.add(99);
+
+    rateLimitUser99 = await rateLimitManager.get(99);
+    rateLimitUser1 = await rateLimitManager.get(1);
+
+    expect(rateLimitUser99, 3);
+    expect(rateLimitUser1, 1);
+
+    await RateLimitManager().clear();
+
+    rateLimitUser99 = await rateLimitManager.get(99);
+    rateLimitUser1 = await rateLimitManager.get(1);
+
+    expect(rateLimitUser99, 0);
+    expect(rateLimitUser1, 0);
+  });
+
+  test('test rate limit with another time', () async {
+    DateTime now = DateTime.now();
+    String formattedDate = '${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}${now.hour.toString().padLeft(2, '0')}${now.minute.toString().padLeft(2, '0')}';
+    var date = int.parse(formattedDate) - 1;
+    final isar = await Database.isarInstance;
+
+    final newRateLimit = RateLimit()
+      ..userId = 99
+      ..time = date;
+
+    await isar.writeTxn(() async {
+      await isar.rateLimits.put(newRateLimit);
+    });
+
+    RateLimitManager rateLimitManager = RateLimitManager();
+    int rateLimitUser = await rateLimitManager.get(99);
+
+    expect(rateLimitUser, 0);
+
+    await rateLimitManager.add(99);
+
+    rateLimitUser = await rateLimitManager.get(99);
+
+    expect(rateLimitUser, 1);
   });
 }

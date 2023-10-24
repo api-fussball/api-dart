@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:api_fussball_dart/entities/font.dart';
+import 'package:api_fussball_dart/entities/rate_limit.dart';
 import 'package:api_fussball_dart/entities/user.dart';
 import 'package:isar/isar.dart';
 
@@ -13,7 +14,7 @@ class Database {
       String currentDirectory = Directory.current.path;
       await Isar.initializeIsarCore(download: true);
       _isarInstance =
-          await Isar.open([UserSchema, FontSchema], directory: currentDirectory);
+          await Isar.open([UserSchema, FontSchema, RateLimitSchema], directory: currentDirectory);
     }
     return _isarInstance!;
   }
@@ -57,6 +58,42 @@ class FontManager {
     return ids;
   }
 }
+
+
+class RateLimitManager {
+  Future<int> get(int userId) async {
+    final isar = await Database.isarInstance;
+
+    return await isar.rateLimits.where().filter().userIdEqualTo(userId).timeEqualTo(_getDate()).count();
+  }
+
+  Future<void> add(int userId) async {
+    final isar = await Database.isarInstance;
+
+    final newRateLimit = RateLimit()
+      ..userId = userId
+      ..time = _getDate();
+
+    await isar.writeTxn(() async {
+      await isar.rateLimits.put(newRateLimit);
+    });
+  }
+
+  Future<void> clear() async {
+    final isar = await Database.isarInstance;
+
+    await isar.writeTxn(() async {
+      await isar.rateLimits.clear();
+    });
+  }
+
+  int _getDate() {
+    DateTime now = DateTime.now();
+    String formattedDate = '${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}${now.hour.toString().padLeft(2, '0')}${now.minute.toString().padLeft(2, '0')}';
+    return int.parse(formattedDate);
+  }
+}
+
 Future<List<User?>> findAllUser() async {
   final isar = await Database.isarInstance;
   return await isar.users.where().findAll();

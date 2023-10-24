@@ -12,14 +12,21 @@ Middleware headerTokenCheckMiddleware() {
       String? token = request.headers['x-auth-token'];
       if(token == null) {
         ResponseErrorDto responseErrorDto = ResponseErrorDto('Token in header: "x-auth-token" not found');
-        return Response.forbidden(jsonEncode(responseErrorDto), headers: {'Content-Type': 'application/json'});
+        return Response.unauthorized(jsonEncode(responseErrorDto), headers: {'Content-Type': 'application/json'});
       }
 
       User? user = await findUserByToken(token);
       if (user == null) {
         ResponseErrorDto responseErrorDto = ResponseErrorDto('Token $token not found');
-        return Response.forbidden(jsonEncode(responseErrorDto), headers: {'Content-Type': 'application/json'});
+        return Response.unauthorized(jsonEncode(responseErrorDto), headers: {'Content-Type': 'application/json'});
       }
+
+      int rateLimit = await RateLimitManager().get(user.id);
+      if(rateLimit > 30) {
+        ResponseErrorDto responseErrorDto = ResponseErrorDto('You are allowed a maximum of 30 queries per minute. Please try again later.');
+        return Response(429, body: jsonEncode(responseErrorDto), headers: {'Content-Type': 'application/json'});
+      }
+      await RateLimitManager().add(user.id);
 
       return innerHandler(request);
     };
