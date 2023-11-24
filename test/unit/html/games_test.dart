@@ -11,6 +11,705 @@ class MockExceptionFont implements FontInterface {
 }
 
 void main() {
+
+  test('next club with adress', () async{
+
+    final String htmlString = '''
+<!-- https://www.fussball.de/ajax.team.matchplan/-/mime-type/XML/show-venues/true/team-id/01SHOG6L9G000000VS548984VVMI9KVG -->
+<div data-ng-controller="AjaxController" id="id-team-matchplan-table">
+	<div data-toggle=".filter-toggle" class="team-matchplan-table-nav table-filter">
+		<div class="filter-toggle">Filter<span class="icon-open"></span><span class="icon-close"></span></div>
+		<div class="filter-content">
+			<form data-ajax-type="json" data-ajax-forced="{'offset':0}" data-ng-controller="AjaxController" data-ajax-target=".club-matchplan-table" data-ajax-defaults="{'max':10}" data-ajax-resource="https://www.fussball.de/ajax.team.matchplan/-/mime-type/JSON/mode/PAGE/prev-season-allowed/false/show-filter/false/team-id/01SHOG6L9G000000VS548984VVMI9KVG" data-ajax="replace" data-tracking="{'href':'https://www.fussball.de/ajax.team.matchplan/-/mime-type/JSON/mode/PAGE/prev-season-allowed/false/show-filter/false/team-id/01SHOG6L9G000000VS548984VVMI9KVG'}">
+				<input name="team-id" type="hidden" value="01SHOG6L9G000000VS548984VVMI9KVG">
+				<div class="row">
+					<div data-select-box="multiple" data-select-box-default="0" data-select-title="Wettbewerbe" class="select-wrapper" data-ajaxmodel="wettkampftyp" data-select-box-multiple="ausgewählt">
+						<select size="1" name="wettkampftyp" multiple>
+							<option value="-1">Alle</option>
+							<option value="1">Meisterschaften</option>
+							<option value="8">Pokale</option>
+							<option value="3">Turniere</option>
+							<option value="7">Freundschaftsspiele</option>
+							<option value="6">Privatspiele</option>
+							<option value="11">Futsal-Ligabetrieb</option>
+							<option value="2">Hallenturniere (Futsal)</option>
+							<option value="21">Beachsoccer-Meisterschaften</option>
+							<option value="9">Auswahlspiele</option>
+						</select>
+					</div>
+					<div data-select-box="multiple" data-select-box-default="0" data-select-title="Spiele" class="select-wrapper" data-ajaxmodel="match-type" data-select-box-multiple="ausgewählt">
+						<select size="1" name="match-type" multiple>
+							<option value="-1">Alle</option>
+							<option value="1">Heimspiele</option>
+							<option value="2">Auswärtsspiele</option>
+						</select>
+					</div>
+					<label data-checkbox="" class="checkbox" data-ajaxmodel="show-venues">
+						<span class="icon-verified"></span>
+						<input name="checked" checked="checked" type="checkbox" value="true">
+						<span class="label">Spielstätten <strong>anzeigen</strong></span>
+					</label>
+				</div>
+				<div class="row">
+					<div class="cal-group">
+						<div class="datepicker-wrapper">
+							<div data-ng-controller="MatchcalController" class="date datepicker label-wrapper">
+								<label for="matchplan-date-from">Von:</label>
+								<input data-ng-model="dt" data-ng-init="dt='2023-11-24'" name="datum-von" data-datepicker-popup="dd.MM.yyyy" data-is-open="opened" placeholder="Datum*" id="matchplan-date-from" type="text" value="" data-ajaxmodel="datum-von">
+								<label for="matchplan-date-from" data-ng-class="{'open':opened}"><span class="icon-matchcal"></span></label>
+							</div>
+						</div>
+						<div class="datepicker-wrapper">
+							<div data-ng-controller="MatchcalController" class="date datepicker label-wrapper">
+								<label for="matchplan-date-to">Bis:</label>
+								<input data-ng-model="dt" data-ng-init="dt='2024-06-30'" name="datum-bis" data-datepicker-popup="dd.MM.yyyy" data-is-open="opened" placeholder="Datum*" id="matchplan-date-to" type="text" value="" data-ajaxmodel="datum-bis">
+								<label for="matchplan-date-to" data-ng-class="{'open':opened}"><span class="icon-matchcal"></span></label>
+							</div>
+						</div>
+					</div>
+					<button type="submit" class="button button-primary">los</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="table-container fixtures-matches-table club-matchplan-table">
+		<div class="hint-pre-publish"><span class="inner"><h5>Wichtiger Hinweis zum Spielplan</h5><p>Dieser Spielplan enthält vorläufige Spiele, die noch nicht vom Staffelleiter freigegeben worden sind. Bitte warte für weitere Informationen auf die finale Freigabe.</p></span></div>
+		<table class="table table-striped table-full-width">
+			<thead>
+				<tr class="thead hidden-small">
+					<th class="hidden-small">Datum | Zeit</th>
+					<th colspan="3">Wettbewerb</th>
+					<th colspan="2"><span class="hidden-small">Info</span></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="row-headline visible-small">
+					<td colspan="6">Mittwoch, 29.11.2023 - 19:15 Uhr | Kreispokal</td>
+				</tr>
+				<tr class="odd row-competition hidden-small">
+					<td class="column-date"><span class="hidden-small inline">Mi, 29.11.23 |&nbsp;</span>19:15</td>
+					<td colspan="3" class="column-team">
+						<a>Kreispokal</a>
+					</td>
+					<td colspan="2">
+						<a>PO | 280023031</a>
+					</td>
+				</tr>
+				<tr class="odd">
+					<td class="hidden-small"></td>
+					<td class="column-club">
+						<a href="https://www.fussball.de/mannschaft/sv-fuehlinge-l-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01SHOG6L9G000000VS548984VVMI9KVG" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="SV Fühlinge l" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								SV Fühlinge l
+							</div>
+						</a>
+					</td>
+					<td class="column-colon">:</td>
+					<td class="column-club no-border">
+						<a href="https://www.fussball.de/mannschaft/sc-sw-koeln-sc-schwarz-weiss-koeln-1912-ev-mittelrhein/-/saison/2324/team-id/01L6GQGS3S000000VV0AG80NVTB5JGKG" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="SC SW Köln" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400004QVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								SC SW Köln
+							</div>
+						</a>
+					</td>
+					<td class="column-score">
+						<a href="https://www.fussball.de/spiel/sv-fuehlinge-l-sc-sw-koeln/-/spiel/02MD0JMDRG000000VS5489B4VSKDJ19I"><span data-obfuscation="fikpy2ss" class="score-left">&#xE680;</span><span class="colon">:</span><span data-obfuscation="fikpy2ss" class="score-right">&#xE685;</span></a>
+					</td>
+					<td class="column-detail">
+						<a href="https://www.fussball.de/spiel/sv-fuehlinge-l-sc-sw-koeln/-/spiel/02MD0JMDRG000000VS5489B4VSKDJ19I"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+					</td>
+				</tr>
+				<tr class="odd row-venue hidden-small">
+					<td></td>
+					<td colspan="3">
+						Kunstrasenplatz, Kunstrasenplatz Am Kutzpfädchen, Am Kutzpfädchen 3a, 50769 Köln
+					</td>
+					<td></td>
+				</tr>
+				<tr class="row-headline visible-small">
+					<td colspan="6">Sonntag, 03.12.2023 - 11:15 Uhr | 1.Kreisklasse</td>
+				</tr>
+				<tr class="row-competition hidden-small">
+					<td class="column-date"><span class="hidden-small inline">So, 03.12.23 |&nbsp;</span>11:15</td>
+					<td colspan="3" class="column-team">
+						<a>1.Kreisklasse</a>
+					</td>
+					<td colspan="2">
+						<a>ME | 230150088</a>
+					</td>
+				</tr>
+				<tr>
+					<td class="hidden-small"></td>
+					<td class="column-club">
+						<a href="https://www.fussball.de/mannschaft/sv-fuehlinge-l-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01SHOG6L9G000000VS548984VVMI9KVG" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Fühlingen" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Fühlingen
+							</div>
+						</a>
+					</td>
+					<td class="column-colon">:</td>
+					<td class="column-club no-border">
+						<a href="https://www.fussball.de/mannschaft/ssv-leverkusen-alkenrath-b2-u16-ssv-leverkusen-alkenrath-mittelrhein/-/saison/2324/team-id/02BA257QEK000000VS5489B1VU20GQ5T" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Alkenrath II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN914000038VV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Alkenrath II
+							</div>
+						</a>
+					</td>
+					<td class="column-score">
+						<a href="https://www.fussball.de/spiel/sv-fuehlinge-l-ssv-leverkusen-alkenrath-b2-u16/-/spiel/02MLPRMHCK000000VS5489B4VVE2H2MO"><span data-obfuscation="fikpy2ss" class="score-left">&#xE685;</span><span class="colon">:</span><span data-obfuscation="fikpy2ss" class="score-right">&#xE689;</span></a>
+					</td>
+					<td class="column-detail">
+						<a href="https://www.fussball.de/spiel/sv-fuehlinge-l-ssv-leverkusen-alkenrath-b2-u16/-/spiel/02MLPRMHCK000000VS5489B4VVE2H2MO"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+					</td>
+				</tr>
+				<tr class="row-venue hidden-small">
+					<td></td>
+					<td colspan="3">
+						Kunstrasenplatz, Kunstrasenplatz Am Kutzpfädchen, Am Kutzpfädchen 3a, 50769 Köln
+					</td>
+					<td></td>
+				</tr>
+				<tr class="row-headline visible-small">
+					<td colspan="6">Samstag, 09.12.2023 - 15:00 Uhr | 1.Kreisklasse</td>
+				</tr>
+				<tr class="odd row-competition hidden-small">
+					<td class="column-date"><span class="hidden-small inline">Sa, 09.12.23 |&nbsp;</span>15:00</td>
+					<td colspan="3" class="column-team">
+						<a>1.Kreisklasse</a>
+					</td>
+					<td colspan="2">
+						<a>ME | 230150011</a>
+					</td>
+				</tr>
+				<tr class="odd">
+					<td class="hidden-small"></td>
+					<td class="column-club">
+						<a href="https://www.fussball.de/mannschaft/sv-fuehlinge-l-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01SHOG6L9G000000VS548984VVMI9KVG" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Fühlingen" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Fühlingen
+							</div>
+						</a>
+					</td>
+					<td class="column-colon">:</td>
+					<td class="column-club no-border">
+						<a href="https://www.fussball.de/mannschaft/bergfried-leverkusen-u17-ii-sv-bergfried-leverkusen-mittelrhein/-/saison/2324/team-id/02IGEK8ESG000000VS5489B2VU2I8R4H" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Leverkusen Bergfried II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN914000036VV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Leverkusen Bergfried II
+							</div>
+						</a>
+					</td>
+					<td class="column-score">
+						<a href="https://www.fussball.de/spiel/sv-fuehlinge-l-bergfried-leverkusen-u17-ii/-/spiel/02MLPRMLJC000000VS5489B4VVE2H2MO"><span data-obfuscation="fikpy2ss" class="score-left">&#xE65B;</span><span class="colon">:</span><span data-obfuscation="fikpy2ss" class="score-right">&#xE65B;</span></a>
+					</td>
+					<td class="column-detail">
+						<a href="https://www.fussball.de/spiel/sv-fuehlinge-l-bergfried-leverkusen-u17-ii/-/spiel/02MLPRMLJC000000VS5489B4VVE2H2MO"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+					</td>
+				</tr>
+				<tr class="odd row-venue hidden-small">
+					<td></td>
+					<td colspan="3">
+						Kunstrasenplatz, Kunstrasenplatz Am Kutzpfädchen, Am Kutzpfädchen 3a, 50769 Köln
+					</td>
+					<td></td>
+				</tr>
+				<tr class="row-headline visible-small">
+					<td colspan="6">Sonntag, 28.01.2024 - 11:15 Uhr | 1.Kreisklasse</td>
+				</tr>
+				<tr class="row-competition hidden-small">
+					<td class="column-date"><span class="hidden-small inline">So, 28.01.24 |&nbsp;</span>11:15</td>
+					<td colspan="3" class="column-team">
+						<a>1.Kreisklasse</a>
+					</td>
+					<td colspan="2">
+						<a>ME | 230150094</a>
+					</td>
+				</tr>
+				<tr>
+					<td class="hidden-small"></td>
+					<td class="column-club">
+						<a href="https://www.fussball.de/mannschaft/sv-fuehlinge-l-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01SHOG6L9G000000VS548984VVMI9KVG" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Fühlingen" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Fühlingen
+							</div>
+						</a>
+					</td>
+					<td class="column-colon">:</td>
+					<td class="column-club no-border">
+						<a href="https://www.fussball.de/mannschaft/dsk-koeln-ev-dsk-koeln-ev-mittelrhein/-/saison/2324/team-id/02M4U18HD8000000VS5489B2VTKNAG5C" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="DSK Köln" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN914000023VV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								DSK Köln
+							</div>
+						</a>
+					</td>
+					<td class="column-score">
+						<a href="https://www.fussball.de/spiel/sv-fuehlinge-l-dsk-koeln-ev/-/spiel/02MLPRMT28000000VS5489B4VVE2H2MO"><span data-obfuscation="fikpy2ss" class="score-left">&#xE689;</span><span class="colon">:</span><span data-obfuscation="fikpy2ss" class="score-right">&#xE6A2;</span></a>
+					</td>
+					<td class="column-detail">
+						<a href="https://www.fussball.de/spiel/sv-fuehlinge-l-dsk-koeln-ev/-/spiel/02MLPRMT28000000VS5489B4VVE2H2MO"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+					</td>
+				</tr>
+				<tr class="row-venue hidden-small">
+					<td></td>
+					<td colspan="3">
+						Kunstrasenplatz, Kunstrasenplatz Am Kutzpfädchen, Am Kutzpfädchen 3a, 50769 Köln
+					</td>
+					<td></td>
+				</tr>
+				<tr class="row-headline visible-small">
+					<td colspan="6">Samstag, 03.02.2024 - 13:30 Uhr | 1.Kreisklasse</td>
+				</tr>
+				<tr class="odd row-competition hidden-small">
+					<td class="column-date"><span class="hidden-small inline">Sa, 03.02.24 |&nbsp;</span>13:30</td>
+					<td colspan="3" class="column-team">
+						<a>1.Kreisklasse</a>
+					</td>
+					<td colspan="2">
+						<a>ME | 230150102</a>
+					</td>
+				</tr>
+				<tr class="odd">
+					<td class="hidden-small"></td>
+					<td class="column-club">
+						<a href="https://www.fussball.de/mannschaft/bergfried-leverkusen-u17-ii-sv-bergfried-leverkusen-mittelrhein/-/saison/2324/team-id/02IGEK8ESG000000VS5489B2VU2I8R4H" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Leverkusen Bergfried II" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN914000036VV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Leverkusen Bergfried II
+							</div>
+						</a>
+					</td>
+					<td class="column-colon">:</td>
+					<td class="column-club no-border">
+						<a href="https://www.fussball.de/mannschaft/sv-fuehlinge-l-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01SHOG6L9G000000VS548984VVMI9KVG" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Fühlingen" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Fühlingen
+							</div>
+						</a>
+					</td>
+					<td class="column-score">
+						<a href="https://www.fussball.de/spiel/bergfried-leverkusen-u17-ii-sv-fuehlinge-l/-/spiel/02MLPRMSG4000000VS5489B4VVE2H2MO"><span data-obfuscation="fikpy2ss" class="score-left">&#xE65B;</span><span class="colon">:</span><span data-obfuscation="fikpy2ss" class="score-right">&#xE689;</span></a>
+					</td>
+					<td class="column-detail">
+						<a href="https://www.fussball.de/spiel/bergfried-leverkusen-u17-ii-sv-fuehlinge-l/-/spiel/02MLPRMSG4000000VS5489B4VVE2H2MO"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+					</td>
+				</tr>
+				<tr class="odd row-venue hidden-small">
+					<td></td>
+					<td colspan="3">
+						Kunstrasenplatz, Kunstrasenplatz Höferweg, Höfer Weg 20, 51377 Leverkusen
+					</td>
+					<td></td>
+				</tr>
+				<tr class="row-headline visible-small">
+					<td colspan="6">Sonntag, 18.02.2024 - 11:15 Uhr | 1.Kreisklasse</td>
+				</tr>
+				<tr class="row-competition hidden-small">
+					<td class="column-date"><span class="hidden-small inline">So, 18.02.24 |&nbsp;</span>11:15</td>
+					<td colspan="3" class="column-team">
+						<a>1.Kreisklasse</a>
+					</td>
+					<td colspan="2">
+						<a>ME | 230150112</a>
+					</td>
+				</tr>
+				<tr>
+					<td class="hidden-small"></td>
+					<td class="column-club">
+						<a href="https://www.fussball.de/mannschaft/sv-fuehlinge-l-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01SHOG6L9G000000VS548984VVMI9KVG" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Fühlingen" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Fühlingen
+							</div>
+						</a>
+					</td>
+					<td class="column-colon">:</td>
+					<td class="column-club no-border">
+						<a href="https://www.fussball.de/mannschaft/sinnersdorf-i-vfr-sinnersdorf-1928-ev-mittelrhein/-/saison/2324/team-id/02IKC0TG5S000000VS5489B2VVQ9C6A6" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Sinnersdorf" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400004RVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Sinnersdorf
+							</div>
+						</a>
+					</td>
+					<td class="column-score">
+						<a href="https://www.fussball.de/spiel/sv-fuehlinge-l-sinnersdorf-i/-/spiel/02MLPRMS44000000VS5489B4VVE2H2MO"><span data-obfuscation="fikpy2ss" class="score-left">&#xE6A2;</span><span class="colon">:</span><span data-obfuscation="fikpy2ss" class="score-right">&#xE6A2;</span></a>
+					</td>
+					<td class="column-detail">
+						<a href="https://www.fussball.de/spiel/sv-fuehlinge-l-sinnersdorf-i/-/spiel/02MLPRMS44000000VS5489B4VVE2H2MO"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+					</td>
+				</tr>
+				<tr class="row-venue hidden-small">
+					<td></td>
+					<td colspan="3">
+						Kunstrasenplatz, Kunstrasenplatz Am Kutzpfädchen, Am Kutzpfädchen 3a, 50769 Köln
+					</td>
+					<td></td>
+				</tr>
+				<tr class="row-headline visible-small">
+					<td colspan="6">Sonntag, 25.02.2024 - 17:00 Uhr | 1.Kreisklasse</td>
+				</tr>
+				<tr class="odd row-competition hidden-small">
+					<td class="column-date"><span class="hidden-small inline">So, 25.02.24 |&nbsp;</span>17:00</td>
+					<td colspan="3" class="column-team">
+						<a>1.Kreisklasse</a>
+					</td>
+					<td colspan="2">
+						<a>ME | 230150116</a>
+					</td>
+				</tr>
+				<tr class="odd">
+					<td class="hidden-small"></td>
+					<td class="column-club">
+						<a href="https://www.fussball.de/mannschaft/sv-auweiler-esch-59-ev-sv-auweiler-esch-59-ev-mittelrhein/-/saison/2324/team-id/02M797F9H0000000VS5489B2VUHJA7LU" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Auweiler-Esch" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400001NVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Auweiler-Esch
+							</div>
+						</a>
+					</td>
+					<td class="column-colon">:</td>
+					<td class="column-club no-border">
+						<a href="https://www.fussball.de/mannschaft/sv-fuehlinge-l-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01SHOG6L9G000000VS548984VVMI9KVG" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Fühlingen" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Fühlingen
+							</div>
+						</a>
+					</td>
+					<td class="column-score">
+						<a href="https://www.fussball.de/spiel/sv-auweiler-esch-59-ev-sv-fuehlinge-l/-/spiel/02MLPRMR88000000VS5489B4VVE2H2MO"><span data-obfuscation="fikpy2ss" class="score-left">&#xE66D;</span><span class="colon">:</span><span data-obfuscation="fikpy2ss" class="score-right">&#xE685;</span></a>
+					</td>
+					<td class="column-detail">
+						<a href="https://www.fussball.de/spiel/sv-auweiler-esch-59-ev-sv-fuehlinge-l/-/spiel/02MLPRMR88000000VS5489B4VVE2H2MO"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+					</td>
+				</tr>
+				<tr class="odd row-venue hidden-small">
+					<td></td>
+					<td colspan="3">
+						Kunstrasenplatz, Kunstrasenplatz Martinusstraße, Martinusstr. 28c, 50765 Köln
+					</td>
+					<td></td>
+				</tr>
+				<tr class="row-headline visible-small">
+					<td colspan="6">Sonntag, 03.03.2024 - 11:15 Uhr | 1.Kreisklasse</td>
+				</tr>
+				<tr class="row-competition hidden-small">
+					<td class="column-date"><span class="hidden-small inline">So, 03.03.24 |&nbsp;</span>11:15</td>
+					<td colspan="3" class="column-team">
+						<a>1.Kreisklasse</a>
+					</td>
+					<td colspan="2">
+						<a>ME | 230150124</a>
+					</td>
+				</tr>
+				<tr>
+					<td class="hidden-small"></td>
+					<td class="column-club">
+						<a href="https://www.fussball.de/mannschaft/sv-fuehlinge-l-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01SHOG6L9G000000VS548984VVMI9KVG" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Fühlingen" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Fühlingen
+							</div>
+						</a>
+					</td>
+					<td class="column-colon">:</td>
+					<td class="column-club no-border">
+						<a href="https://www.fussball.de/mannschaft/sc-weiler-volkhoven-u17-sc-koeln-weiler-volkhoven-1948-mittelrhein/-/saison/2324/team-id/01OO6PUDCG000000VV0AG80NVV5I14SD" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Weiler-Volkhoven" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400005JVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Weiler-Volkhoven
+							</div>
+						</a>
+					</td>
+					<td class="column-score">
+						<a href="https://www.fussball.de/spiel/sv-fuehlinge-l-sc-weiler-volkhoven-u17/-/spiel/02MLPRMQOS000000VS5489B4VVE2H2MO"><span data-obfuscation="fikpy2ss" class="score-left">&#xE665;</span><span class="colon">:</span><span data-obfuscation="fikpy2ss" class="score-right">&#xE685;</span></a>
+					</td>
+					<td class="column-detail">
+						<a href="https://www.fussball.de/spiel/sv-fuehlinge-l-sc-weiler-volkhoven-u17/-/spiel/02MLPRMQOS000000VS5489B4VVE2H2MO"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+					</td>
+				</tr>
+				<tr class="row-venue hidden-small">
+					<td></td>
+					<td colspan="3">
+						Kunstrasenplatz, Kunstrasenplatz Am Kutzpfädchen, Am Kutzpfädchen 3a, 50769 Köln
+					</td>
+					<td></td>
+				</tr>
+				<tr class="row-headline visible-small">
+					<td colspan="6">Samstag, 09.03.2024 - 13:00 Uhr | 1.Kreisklasse</td>
+				</tr>
+				<tr class="odd row-competition hidden-small">
+					<td class="column-date"><span class="hidden-small inline">Sa, 09.03.24 |&nbsp;</span>13:00</td>
+					<td colspan="3" class="column-team">
+						<a>1.Kreisklasse</a>
+					</td>
+					<td colspan="2">
+						<a>ME | 230150130</a>
+					</td>
+				</tr>
+				<tr class="odd">
+					<td class="hidden-small"></td>
+					<td class="column-club">
+						<a href="https://www.fussball.de/mannschaft/sg-worringen-u17-sg-koeln-worringen-mittelrhein/-/saison/2324/team-id/027JTV855S000000VS5489B1VUA37ON8" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Worringen" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400005LVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Worringen
+							</div>
+						</a>
+					</td>
+					<td class="column-colon">:</td>
+					<td class="column-club no-border">
+						<a href="https://www.fussball.de/mannschaft/sv-fuehlinge-l-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01SHOG6L9G000000VS548984VVMI9KVG" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Fühlingen" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Fühlingen
+							</div>
+						</a>
+					</td>
+					<td class="column-score">
+						<a href="https://www.fussball.de/spiel/sg-worringen-u17-sv-fuehlinge-l/-/spiel/02MLPRMQ5G000000VS5489B4VVE2H2MO"><span data-obfuscation="fikpy2ss" class="score-left">&#xE665;</span><span class="colon">:</span><span data-obfuscation="fikpy2ss" class="score-right">&#xE6BA;</span></a>
+					</td>
+					<td class="column-detail">
+						<a href="https://www.fussball.de/spiel/sg-worringen-u17-sv-fuehlinge-l/-/spiel/02MLPRMQ5G000000VS5489B4VVE2H2MO"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+					</td>
+				</tr>
+				<tr class="odd row-venue hidden-small">
+					<td></td>
+					<td colspan="3">
+						Rasenplatz, Rasenplatz Worringen, Erdweg 1a, 50769 Köln
+					</td>
+					<td></td>
+				</tr>
+				<tr class="row-headline visible-small">
+					<td colspan="6">Samstag, 16.03.2024 - 15:30 Uhr | 1.Kreisklasse</td>
+				</tr>
+				<tr class="row-competition hidden-small">
+					<td class="column-date"><span class="hidden-small inline">Sa, 16.03.24 |&nbsp;</span>15:30</td>
+					<td colspan="3" class="column-team">
+						<a>1.Kreisklasse</a>
+					</td>
+					<td colspan="2">
+						<a>ME | 230150137</a>
+					</td>
+				</tr>
+				<tr>
+					<td class="hidden-small"></td>
+					<td class="column-club">
+						<a href="https://www.fussball.de/mannschaft/fc-eintracht-koeln-51-05-ev-fc-eintracht-koeln-51-05-ev-mittelrhein/-/saison/2324/team-id/02M9QF4PRG000000VS5489B2VURM3E5J" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Eintracht Köln" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN914000029VV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Eintracht Köln
+							</div>
+						</a>
+					</td>
+					<td class="column-colon">:</td>
+					<td class="column-club no-border">
+						<a href="https://www.fussball.de/mannschaft/sv-fuehlinge-l-sv-fuehlingen-chorweiler-e-v-mittelrhein/-/saison/2324/team-id/01SHOG6L9G000000VS548984VVMI9KVG" class="club-wrapper">
+							<div class="club-logo table-image"><span data-alt="Fühlingen" data-responsive-image="//www.fussball.de/export.media/-/action/getLogo/format/3/id/00ES8GN91400002IVV0AG08LVUPGND5I"></span></div>
+							<div class="club-name">
+								Fühlingen
+							</div>
+						</a>
+					</td>
+					<td class="column-score">
+						<a href="https://www.fussball.de/spiel/fc-eintracht-koeln-51-05-ev-sv-fuehlinge-l/-/spiel/02MLPRMPL0000000VS5489B4VVE2H2MO"><span data-obfuscation="fikpy2ss" class="score-left">&#xE6BA;</span><span class="colon">:</span><span data-obfuscation="fikpy2ss" class="score-right">&#xE685;</span></a>
+					</td>
+					<td class="column-detail">
+						<a href="https://www.fussball.de/spiel/fc-eintracht-koeln-51-05-ev-sv-fuehlinge-l/-/spiel/02MLPRMPL0000000VS5489B4VVE2H2MO"><span class="icon-angle-right hidden-full"></span><span class="visible-full">Zum Spiel<span class="icon-link-arrow"></span></span></a>
+					</td>
+				</tr>
+				<tr class="row-venue hidden-small">
+					<td></td>
+					<td colspan="3">
+						Kunstrasenplatz, Kunstrasenplatz Venloer Straße, Prälat-Wolker-Anlage gegenüber Fernsehturm - Platz 3, 50823 Köln
+					</td>
+					<td></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr class="load-more">
+					<td colspan="6">
+						<form data-ajax-type="json" data-ajax-target=".club-matchplan-table tbody" data-ajax-defaults="{'max':10,'offset':10}" data-ajax-resource="https://www.fussball.de/ajax.team.matchplan.loadmore/-/datum-bis/2024-06-30/datum-von/2023-11-24/id/00ES8GN91400002IVV0AG08LVUPGND5I/match-type/-1/mime-type/JSON/mode/PAGE/show-venues/true/team-id/01SHOG6L9G000000VS548984VVMI9KVG" data-ajax="append" data-tracking="{'href':'https://www.fussball.de/ajax.team.matchplan.loadmore/-/datum-bis/2024-06-30/datum-von/2023-11-24/id/00ES8GN91400002IVV0AG08LVUPGND5I/match-type/-1/mime-type/JSON/mode/PAGE/show-venues/true/team-id/01SHOG6L9G000000VS548984VVMI9KVG'}">
+							<button type="submit" class="load-more-button">Mehr laden<span class="icon-arrow-down"></span></button>
+						</form>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		<div data-toggle=".legend > span, .note > span" class="table-meta">
+			<ul class="functions">
+				<li class="legend"><span data-toggle-content=".table-legend">Legende<span class="icon-angle-down"></span></span></li>
+				<li class="print">
+					<a href="https://www.fussball.de/vereinsspielplan.druck/-/datum-bis/2024-06-30/datum-von/2023-11-24/id/00ES8GN91400002IVV0AG08LVUPGND5I/match-type/-1/max/999/mode/PRINT/show-venues/true/team-id/01SHOG6L9G000000VS548984VVMI9KVG" target="_blank">Drucken<span class="icon-link-arrow"></span></a>
+				</li>
+			</ul>
+			<div class="table-legend">
+				<h3>Kürzel bei einem Spiel</h3>
+				<div class="row">
+					<div class="wrapper">
+						<div class="column">
+							<div class="item"><span>u</span></div>
+							<div class="description">(U) Sportgerichtsurteil (bestätigt)</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>Annuliert</span></div>
+							<div class="description">Annullierung</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>v</span></div>
+							<div class="description">(V) Verwaltungsentscheid (bestätigt)</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="wrapper">
+						<div class="column">
+							<div class="item"><span>Absetzung</span></div>
+							<div class="description">Spielabsetzung</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>w</span></div>
+							<div class="description">(W) Wertung Spielinstanz (bestätigt)</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>Ausfall</span></div>
+							<div class="description">Spielausfall</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="wrapper">
+						<div class="column">
+							<div class="item"><span>t</span></div>
+							<div class="description">(T) Testspiel (bestätigt)</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>Abbruch</span></div>
+							<div class="description">Spielabbruch</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>zg.</span></div>
+							<div class="description">Diese Mannschaft wurde zurückgezogen, die Ergebnisse werden aber eingerechnet.</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="wrapper">
+						<div class="column">
+							<div class="item"><span>Nichtantritt BEIDE</span></div>
+							<div class="description">nicht angetretene Mannschaften</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>Nichtantritt HEIM</span></div>
+							<div class="description">nicht angetreten HEIM-Mannschaft</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>Nichtantritt GAST</span></div>
+							<div class="description">nicht angetreten GAST-Mannschaft</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="wrapper">
+						<div class="column">
+							<div class="item"><span>nV</span></div>
+							<div class="description">nach Verlängerung</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>nE</span></div>
+							<div class="description">nach Elfmeterschießen</div>
+						</div>
+					</div>
+				</div>
+				<h3>Sonstiges</h3>
+				<div class="row">
+					<div class="wrapper">
+						<div class="column">
+							<div class="item"><span>**</span></div>
+							<div class="description">Die Anstoßzeit steht noch nicht fest oder ist nicht bekannt.</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>o.E.</span></div>
+							<div class="description">Keine Ergebnisanzeige, da die Staffel nicht im Leistungsbetrieb spielt.</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>oW</span></div>
+							<div class="description">Mannschaften mit diesem Kennzeichen spielen außer Konkurrenz.</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="wrapper">
+						<div class="column">
+							<div class="item"><span class="icon-verified"></span></div>
+							<div class="description">Ergebnis bestätigt</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>Live</span></div>
+							<div class="description">Liveticker</div>
+						</div>
+						<div class="column">
+							<div class="item"><span>SPIELFREI</span></div>
+							<div class="description">An diesem Datum hat die Mannschaft spielfrei.</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="wrapper">
+						<div class="column">
+							<div class="item"><span class="icon-article"></span></div>
+							<div class="description">Spielbericht vorhanden</div>
+						</div>
+						<div class="column">
+							<div class="item"><span class="icon-foto"></span></div>
+							<div class="description">Foto oder Video vorhanden</div>
+						</div>
+						<div class="column">
+							<div class="item"><span class="icon-video"></span></div>
+							<div class="description">Livestream oder Highlights vorhanden</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="wrapper">
+						<div class="column">
+							<div class="item"><span class="icon-pre-publish"></span></div>
+							<div class="description">vorläufiges Spiel</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+''';
+
+    Games games = Games();
+
+    games.scoreFont.font = MockExceptionFont();
+
+    List<ClubMatchInfoTransfer> clubMatchInfoTransferList =
+    await games.parseHTML(htmlString, false);
+
+    expect(clubMatchInfoTransferList[0].address, 'Kunstrasenplatz, Kunstrasenplatz Am Kutzpfädchen, Am Kutzpfädchen 3a, 50769 Köln');
+    expect(clubMatchInfoTransferList[0].competition, 'Kreispokal');
+    expect(clubMatchInfoTransferList[0].homeTeam, 'SV Fühlinge l');
+    expect(clubMatchInfoTransferList[0].awayTeam, 'SC SW Köln');
+
+    expect(clubMatchInfoTransferList[8].address, 'Rasenplatz, Rasenplatz Worringen, Erdweg 1a, 50769 Köln');
+    expect(clubMatchInfoTransferList[8].homeTeam, 'Worringen');
+    expect(clubMatchInfoTransferList[8].awayTeam, 'Fühlingen');
+  });
+
+
   test('next club match', () async {
     final String htmlString = '''
     <!--https://www.fussball.de/ajax.club.next.games/-/id/00ES8GN91400002IVV0AG08LVUPGND5I/mode/PAGE -->

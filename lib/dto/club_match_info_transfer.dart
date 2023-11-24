@@ -10,6 +10,7 @@ class ClubMatchInfoTransfer {
   String ageGroup = '';
   String competition = '';
   String status = '';
+  String address = '';
 
   Map<String, dynamic> toJson() {
     return {
@@ -24,6 +25,7 @@ class ClubMatchInfoTransfer {
       'ageGroup': ageGroup,
       'competition': competition,
       'status': status,
+      'address': address,
     };
   }
 }

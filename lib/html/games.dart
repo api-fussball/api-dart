@@ -43,6 +43,16 @@ class Games implements GamesInterface {
       _addStatus(rowScore, clubMatchInfoTransfer);
     }
 
+    List<Element> addressList = document.querySelectorAll('tr.row-venue');
+
+    for (var address in addressList) {
+      ClubMatchInfoTransfer clubMatchInfoTransfer =
+      results[addressList.indexOf(address)];
+
+      Element column = address.querySelectorAll('td')[1];
+      clubMatchInfoTransfer.address = column.text.trim();
+    }
+
     if (isScore) {
       clearScoreFontRuntimeCache(document);
     }
