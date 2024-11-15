@@ -2,7 +2,6 @@
 
 The application goes to Fussball.de and provides you with the next and past match of your club or team.
 
-
 # Running 
 
 ```
