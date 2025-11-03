@@ -40,7 +40,7 @@ void main(List<String> args) async {
       .addMiddleware(logRequests())
       .addMiddleware(jsonResponseMiddleware)
       .addMiddleware(globalErrorMiddleware())
-      .addHandler(_router);
+      .addHandler(_router.call);
 
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
   final server = await serve(handler, ip, port);
