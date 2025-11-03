@@ -55,7 +55,7 @@ void main() {
         break;
       }
     }
-    expect(findExpectedTeam, true, reason: '$expectedTeam is not in teams array');
+    expect(findExpectedTeam, true, reason: '$expectedTeam is not in teams array. Actual teams: $uniqueTeams');
   }
 
   void checkTime(List<dynamic> data) {
@@ -146,11 +146,11 @@ void main() {
   test('success: api next game', () async {
 
     final headers = {'x-auth-token': 'unit_test_token'};
-    final response = await get(Uri.parse('$host/api/club/next_games/00ES8GN91400002IVV0AG08LVUPGND5I'), headers: headers);
+    final response = await get(Uri.parse('$host/api/club/next_games/00ES8GN91400002BVV0AG08LVUPGND5I'), headers: headers);
     expect(response.statusCode, 200, reason: 'Error Body: ${response.body}');
 
 
-    String decodedJson = utf8.decode(response.body.codeUnits);
+    String decodedJson = utf8.decode(response.bodyBytes);
 
     Map<String, dynamic> jsonObject = json.decode(decodedJson);
 
@@ -160,7 +160,7 @@ void main() {
     expect(jsonObject['data'], isNotEmpty);
 
     checkTime(jsonObject['data']);
-    checkTeam(jsonObject['data'], 'Fühlingen I');
+    checkTeam(jsonObject['data'], '1. FC Köln');
 
     int score = getScore(jsonObject['data']);
     expect(score, 0);
@@ -170,11 +170,11 @@ void main() {
   test('success: api prev game with score', () async {
 
     final headers = {'x-auth-token': 'unit_test_token'};
-    final response = await get(Uri.parse('$host/api/club/prev_games/00ES8GN91400002IVV0AG08LVUPGND5I'), headers: headers);
+    final response = await get(Uri.parse('$host/api/club/prev_games/00ES8GN91400002BVV0AG08LVUPGND5I'), headers: headers);
     expect(response.statusCode, 200, reason: 'Error Body: ${response.body}');
 
 
-    String decodedJson = utf8.decode(response.body.codeUnits);
+    String decodedJson = utf8.decode(response.bodyBytes);
 
     Map<String, dynamic> jsonObject = json.decode(decodedJson);
 
@@ -184,7 +184,7 @@ void main() {
     expect(jsonObject['data'], isNotEmpty);
 
     checkTime(jsonObject['data']);
-    checkTeam(jsonObject['data'], 'Fühlingen I');
+    checkTeam(jsonObject['data'], '1. FC Köln');
 
     int score = getScore(jsonObject['data']);
     expect(score, greaterThan(0));
@@ -194,11 +194,11 @@ void main() {
   test('success: api prev club match with score', () async {
 
     final headers = {'x-auth-token': 'unit_test_token'};
-    final response = await get(Uri.parse('$host/api/team/prev_games/011MIC9NDS000000VTVG0001VTR8C1K7'), headers: headers);
+    final response = await get(Uri.parse('$host/api/team/prev_games/011MIC49F0000000VTVG0001VTR8C1K7'), headers: headers);
     expect(response.statusCode, 200, reason: 'Error Body: ${response.body}');
 
 
-    String decodedJson = utf8.decode(response.body.codeUnits);
+    String decodedJson = utf8.decode(response.bodyBytes);
 
     Map<String, dynamic> jsonObject = json.decode(decodedJson);
 
@@ -208,7 +208,7 @@ void main() {
     expect(jsonObject['data'], isNotEmpty);
 
     checkTime(jsonObject['data']);
-    checkTeam(jsonObject['data'], 'Fühlingen I');
+    checkTeam(jsonObject['data'], '1. FC Köln');
 
     int score = getScore(jsonObject['data']);
     expect(score, greaterThan(0));
