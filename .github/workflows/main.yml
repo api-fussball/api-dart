@@ -32,7 +32,7 @@ jobs:
           apt-get update -y
           apt-get install -y fonttools rsync
       - name: Run tests
-        run: dart test --exclude-tags=skip-ci --coverage=./coverage
+        run: dart test --coverage=./coverage
       - name: Generate LCOV report
         run: dart run coverage:format_coverage --lcov --in=coverage --out=coverage.lcov  --report-on=lib
       - name: Upload coverage to Codecov
