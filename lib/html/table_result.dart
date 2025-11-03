@@ -76,18 +76,23 @@ class TeamTableTransfer {
   bool isRelegation = false;
   bool isPromotion = false;
 
+  /// Converts double to int if it's a whole number, otherwise keeps as double
+  num _toNumOrInt(double value) {
+    return value == value.toInt() ? value.toInt() : value;
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'place': place,
       'team': team,
       'img': img,
-      'games': games,
-      'won': won,
-      'draw': draw,
-      'lost': lost,
+      'games': _toNumOrInt(games),
+      'won': _toNumOrInt(won),
+      'draw': _toNumOrInt(draw),
+      'lost': _toNumOrInt(lost),
       'goal': goal,
-      'goalDifference': goalDifference,
-      'points': points,
+      'goalDifference': _toNumOrInt(goalDifference),
+      'points': _toNumOrInt(points),
       'isRelegation': isRelegation,
       'isPromotion': isPromotion
     };
