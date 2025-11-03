@@ -370,6 +370,135 @@ void main() {
     expect(team.isRelegation, isTrue);
   });
 
+  test('parse German number format with comma', () async {
+    // Real HTML from fussball.de API with German decimal format (Punkte Ø column)
+    final String htmlStringWithComma = '''
+<div id="team-fixture-league-tables" class="table-container fixtures-league-table">
+    <table class="table table-striped table-full-width">
+        <thead>
+            <tr class="thead">
+                <th colspan="2"><span class="visible-small">Pl.</span><span class="hidden-small">Platz</span></th>
+                <th class="column-large">Mannschaft</th>
+                <th><span class="visible-small">Sp.</span><span class="hidden-small">Spiele</span></th>
+                <th class="hidden-small">G</th>
+                <th class="hidden-small">U</th>
+                <th class="hidden-small">V</th>
+                <th><span class="visible-small">Torv.</span><span class="hidden-small">Torverhältnis</span></th>
+                <th class="hidden-small">Tordifferenz</th>
+                <th><span class="visible-small">Pkt. Ø</span><span class="hidden-small">Punkte Ø</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="row-promotion">
+                <td class="column-icon"><span class="icon-arrow-right"></span></td>
+                <td class="column-rank">1.</td>
+                <td class="column-club">
+                    <a href="https://www.fussball.de/mannschaft/jsg-bvh-sus-hervest-dorsten-bvh-dorsten-westfalen/-/saison/2526/team-id/011MICLC74000000VTVG0001VTR8C1K7" class="club-wrapper">
+                        <div class="club-logo table-image">
+                            <img src="//www.fussball.de/export.media/-/action/getLogo/format/0/id/00ES8GN8QS00005DVV0AG08LVUPGND5I/verband/0123456789ABCDEF0123456700004130" alt="JSG BVH / SuS Hervest Dorsten">
+                        </div>
+                        <div class="club-name">
+                            JSG BVH / SuS Hervest Dorsten
+                        </div>
+                    </a>
+                </td>
+                <td>5</td>
+                <td class="hidden-small">4</td>
+                <td class="hidden-small">1</td>
+                <td class="hidden-small">0</td>
+                <td class="no-wrap">18 : 9</td>
+                <td class="hidden-small">9</td>
+                <td class="column-points">2,60</td>
+            </tr>
+            <tr class="row-promotion odd">
+                <td class="column-icon"><span class="icon-arrow-right"></span></td>
+                <td class="column-rank">2.</td>
+                <td class="column-club">
+                    <a href="https://www.fussball.de/mannschaft/sv-vestia-disteln-sv-vestia-disteln-westfalen/-/saison/2526/team-id/02IJ1JI5NC000000VS5489B1VSO9MMK0" class="club-wrapper">
+                        <div class="club-logo table-image">
+                            <img src="//www.fussball.de/export.media/-/action/getLogo/format/0/id/00ES8GN8QS000035VV0AG08LVUPGND5I/verband/0123456789ABCDEF0123456700004130" alt="SV Vestia Disteln">
+                        </div>
+                        <div class="club-name">
+                            SV Vestia Disteln
+                        </div>
+                    </a>
+                </td>
+                <td>5</td>
+                <td class="hidden-small">3</td>
+                <td class="hidden-small">2</td>
+                <td class="hidden-small">0</td>
+                <td class="no-wrap">18 : 6</td>
+                <td class="hidden-small">12</td>
+                <td class="column-points">2,20</td>
+            </tr>
+            <tr class="odd own">
+                <td class="column-icon"><span class="icon-arrow-down-right"></span></td>
+                <td class="column-rank">6.</td>
+                <td class="column-club">
+                    <a href="https://www.fussball.de/mannschaft/tus-haltern-am-see-u17-tus-haltern-westfalen/-/saison/2526/team-id/012TEDATMK000000VV0AG811VVETIMC3" class="club-wrapper">
+                        <div class="club-logo table-image">
+                            <img src="//www.fussball.de/export.media/-/action/getLogo/format/0/id/00ES8GN8QS00003HVV0AG08LVUPGND5I/verband/0123456789ABCDEF0123456700004130" alt="TuS Haltern am See U17">
+                        </div>
+                        <div class="club-name">
+                            TuS Haltern am See U17
+                        </div>
+                    </a>
+                </td>
+                <td>5</td>
+                <td class="hidden-small">1</td>
+                <td class="hidden-small">1</td>
+                <td class="hidden-small">3</td>
+                <td class="no-wrap">8 : 18</td>
+                <td class="hidden-small">-10</td>
+                <td class="column-points">0,80</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+''';
+
+    TableResult tableResult = TableResult();
+    List<TeamTableTransfer> table = tableResult.parseHTML(htmlStringWithComma);
+
+    // First team - JSG BVH with German decimal format
+    TeamTableTransfer team = table[0];
+    expect(team.place, equals(1));
+    expect(team.team, contains('JSG BVH'));
+    expect(team.games, equals(5));
+    expect(team.won, equals(4));
+    expect(team.draw, equals(1));
+    expect(team.lost, equals(0));
+    expect(team.goal, equals('18 : 9'));
+    expect(team.goalDifference, equals(9));
+    expect(team.points, equals(2.6)); // German format: 2,60 -> 2.6
+    expect(team.isPromotion, isTrue);
+    expect(team.isRelegation, isFalse);
+
+    // Second team - SV Vestia Disteln
+    team = table[1];
+    expect(team.place, equals(2));
+    expect(team.team, equals('SV Vestia Disteln'));
+    expect(team.games, equals(5));
+    expect(team.won, equals(3));
+    expect(team.draw, equals(2));
+    expect(team.lost, equals(0));
+    expect(team.goalDifference, equals(12));
+    expect(team.points, equals(2.2)); // German format: 2,20 -> 2.2
+    expect(team.isPromotion, isTrue);
+
+    // Last team - TuS Haltern with negative goal difference
+    team = table[2];
+    expect(team.place, equals(6));
+    expect(team.team, equals('TuS Haltern am See U17'));
+    expect(team.games, equals(5));
+    expect(team.won, equals(1));
+    expect(team.draw, equals(1));
+    expect(team.lost, equals(3));
+    expect(team.goalDifference, equals(-10));
+    expect(team.points, equals(0.8)); // German format: 0,80 -> 0.8
+    expect(team.isRelegation, isFalse);
+  });
+
   group('TeamTableTransfer', () {
       test('toJson', () {
           var teamTableTransfer = TeamTableTransfer()
