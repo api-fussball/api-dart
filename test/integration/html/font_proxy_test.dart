@@ -2,6 +2,9 @@ import 'package:api_fussball_dart/database.dart';
 import 'package:api_fussball_dart/html/font.dart';
 import 'package:test/test.dart';
 
+// Skip in CI/CD - Isar database not working properly in GitHub Actions
+@Tags(['skip-ci'])
+
 class MockFont implements FontInterface {
   @override
   Future<Map<String, String>> decodeFont(String fontName) async {
