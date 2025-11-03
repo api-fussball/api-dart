@@ -4,7 +4,7 @@ version: 1.0.0
 repository: https://github.com/api-fussball/api-dart
 
 environment:
-  sdk: ^3.0.6
+  sdk: ^3.9.0
 
 dependencies:
   args: ^2.3.0
